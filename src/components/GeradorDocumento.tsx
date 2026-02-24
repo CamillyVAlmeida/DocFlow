@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { usePadraoIA } from "@/context/PadraoIAContext";
 
-type ModuloPadrao = "qa" | "devs";
+type ModuloPadrao = "qa" | "suporte";
 
 type GeradorDocumentoProps = {
   titulo: string;
@@ -20,8 +20,8 @@ export function GeradorDocumento({
   labelBotao = "Gerar documentação",
   modulo,
 }: GeradorDocumentoProps) {
-  const { padraoQA, padraoDevs } = usePadraoIA();
-  const padrao = modulo === "qa" ? padraoQA : padraoDevs;
+  const { padraoQA, padraoSuporte } = usePadraoIA();
+  const padrao = modulo === "qa" ? padraoQA : padraoSuporte;
   const [contexto, setContexto] = useState("");
   const [documento, setDocumento] = useState("");
   const [carregando, setCarregando] = useState(false);
@@ -62,7 +62,7 @@ export function GeradorDocumento({
 
   return (
     <div className="card">
-      <h3 className="mb-3 text-lg font-semibold text-slate-800">{titulo}</h3>
+      <h3 className="mb-3 text-lg font-semibold text-slate-800 dark:text-slate-100">{titulo}</h3>
       <label className="label">Contexto</label>
       <textarea
         className="input-field min-h-[120px] resize-y"
@@ -70,7 +70,7 @@ export function GeradorDocumento({
         value={contexto}
         onChange={(e) => setContexto(e.target.value)}
       />
-      {erro && <p className="mt-1 text-sm text-red-600">{erro}</p>}
+      {erro && <p className="mt-1 text-sm text-red-600 dark:text-red-400">{erro}</p>}
       <button
         type="button"
         onClick={handleGerar}
@@ -80,9 +80,9 @@ export function GeradorDocumento({
         {carregando ? "Gerando..." : labelBotao}
       </button>
       {documento && (
-        <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-4">
+        <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-4 dark:border-slate-600 dark:bg-slate-700/50">
           <div className="mb-2 flex items-center justify-between">
-            <span className="text-sm font-medium text-slate-600">Documento gerado</span>
+            <span className="text-sm font-medium text-slate-600 dark:text-slate-300">Documento gerado</span>
             <button
               type="button"
               onClick={() => {
@@ -94,7 +94,7 @@ export function GeradorDocumento({
               Copiar
             </button>
           </div>
-          <pre className="max-h-[400px] overflow-auto whitespace-pre-wrap rounded bg-white p-3 text-sm text-slate-800">
+          <pre className="max-h-[400px] overflow-auto whitespace-pre-wrap rounded bg-white p-3 text-sm text-slate-800 dark:bg-slate-800 dark:text-slate-200">
             {documento}
           </pre>
         </div>
@@ -102,7 +102,7 @@ export function GeradorDocumento({
       {mostrarCopiado && (
         <div
           role="alert"
-          className="fixed bottom-6 left-1/2 z-[60] -translate-x-1/2 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-800 shadow-lg"
+          className="fixed bottom-6 left-1/2 z-[60] -translate-x-1/2 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-800 shadow-lg dark:border-green-800 dark:bg-green-900/50 dark:text-green-200"
         >
           Texto copiado com sucesso!
         </div>

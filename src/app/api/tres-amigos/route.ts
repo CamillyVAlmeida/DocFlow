@@ -2,34 +2,28 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(request: NextRequest) {
   try {
-    const { idRequisito, lider, desenvolvedor, qa, dataReuniao, decisao, observacoes } =
+    const { idRequisito, lider, desenvolvedor, qa, dataReuniao, observacoes } =
       await request.json();
 
-    if (!idRequisito || !lider || !desenvolvedor || !qa || !dataReuniao || !decisao) {
+    const obs = typeof observacoes === "string" ? observacoes.trim() : "";
+    if (!lider || !desenvolvedor || !qa || !dataReuniao || !obs) {
       return NextResponse.json(
         {
           erro:
-            "Campos obrigatórios: idRequisito, lider, desenvolvedor, qa, dataReuniao, decisao (Aprovado ou Não Aprovado).",
+            "Campos obrigatórios: lider, desenvolvedor, qa, data da reunião e observações.",
         },
         { status: 400 }
       );
     }
 
-    const decisaoValida = ["Aprovado", "Não Aprovado"].includes(decisao);
-    if (!decisaoValida) {
-      return NextResponse.json(
-        { erro: "Decisão deve ser 'Aprovado' ou 'Não Aprovado'." },
-        { status: 400 }
-      );
-    }
+    const id = idRequisito?.trim() || `REQ-${Date.now()}`;
 
     const registro = {
-      idRequisito,
+      idRequisito: id,
       reuniaoTresAmigos: {
         participantes: { lider, desenvolvedor, qa },
         data: dataReuniao,
-        decisao,
-        observacoes: observacoes || "",
+        observacoes: obs,
       },
       registradoEm: new Date().toISOString(),
     };

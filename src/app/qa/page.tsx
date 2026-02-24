@@ -6,9 +6,9 @@ export default function QAPage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
       <header className="mb-8">
-        <h1 className="mb-2 text-2xl font-bold text-slate-800">Módulo QA</h1>
-        <p className="text-slate-600">
-          Gere planos de teste e análise de causa raiz.
+        <h1 className="mb-2 text-2xl font-bold text-slate-800 dark:text-slate-100">Módulo QA</h1>
+        <p className="text-slate-600 dark:text-slate-400">
+          Gere planos de teste e relatos de bug com detalhes técnicos.
         </p>
       </header>
 
@@ -22,10 +22,10 @@ export default function QAPage() {
         />
 
         <GeradorDocumento
-          titulo="2. Análise de Causa Raiz"
-          placeholder="Descreva o bug, passos para reproduzir, ambiente e qualquer informação relevante..."
-          endpoint="/api/gerar/causa-raiz"
-          labelBotao="Gerar análise de causa raiz"
+          titulo="2. Relato de Bug"
+          placeholder="Descreva o bug com detalhes técnicos: ambiente, passos para reproduzir, mensagens de erro, componente afetado, logs..."
+          endpoint="/api/gerar/relato-bug"
+          labelBotao="Gerar relato de bug"
           modulo="qa"
         />
       </div>

@@ -10,18 +10,18 @@ import {
 } from "react";
 
 const STORAGE_QA = "docflow_padrao_qa";
-const STORAGE_DEVS = "docflow_padrao_devs";
+const STORAGE_SUPORTE = "docflow_padrao_suporte";
 const STORAGE_REQUISITOS = "docflow_padrao_requisitos";
 
 export type PadroesIA = {
   qa: string;
-  devs: string;
+  suporte: string;
   requisitos: string;
 };
 
 type PadraoIAContextType = {
   padraoQA: string;
-  padraoDevs: string;
+  padraoSuporte: string;
   padraoRequisitos: string;
   isModalOpen: boolean;
   openModal: () => void;
@@ -33,25 +33,25 @@ const PadraoIAContext = createContext<PadraoIAContextType | null>(null);
 
 export function PadraoIAProvider({ children }: { children: ReactNode }) {
   const [padraoQA, setPadraoQA] = useState("");
-  const [padraoDevs, setPadraoDevs] = useState("");
+  const [padraoSuporte, setPadraoSuporte] = useState("");
   const [padraoRequisitos, setPadraoRequisitos] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const qa = localStorage.getItem(STORAGE_QA);
-    const devs = localStorage.getItem(STORAGE_DEVS);
+    const suporte = localStorage.getItem(STORAGE_SUPORTE);
     const req = localStorage.getItem(STORAGE_REQUISITOS);
     if (qa !== null) setPadraoQA(qa);
-    if (devs !== null) setPadraoDevs(devs);
+    if (suporte !== null) setPadraoSuporte(suporte);
     if (req !== null) setPadraoRequisitos(req);
   }, []);
 
   const savePadroes = useCallback((padroes: PadroesIA) => {
     setPadraoQA(padroes.qa);
-    setPadraoDevs(padroes.devs);
+    setPadraoSuporte(padroes.suporte);
     setPadraoRequisitos(padroes.requisitos);
     localStorage.setItem(STORAGE_QA, padroes.qa);
-    localStorage.setItem(STORAGE_DEVS, padroes.devs);
+    localStorage.setItem(STORAGE_SUPORTE, padroes.suporte);
     localStorage.setItem(STORAGE_REQUISITOS, padroes.requisitos);
     setIsModalOpen(false);
   }, []);
@@ -63,7 +63,7 @@ export function PadraoIAProvider({ children }: { children: ReactNode }) {
     <PadraoIAContext.Provider
       value={{
         padraoQA,
-        padraoDevs,
+        padraoSuporte,
         padraoRequisitos,
         isModalOpen,
         openModal,

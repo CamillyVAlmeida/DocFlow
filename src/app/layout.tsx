@@ -3,13 +3,14 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/Nav";
 import { PadraoIAProvider } from "@/context/PadraoIAContext";
+import { ThemeProvider } from "@/context/ThemeContext";
 import { ModalPadraoIA } from "@/components/ModalPadraoIA";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "DocFlow - Sistema de Documentação",
-  description: "Geração de documentação para QA, DEVs e Requisitos",
+  description: "Geração de documentação para QA, Suporte e Requisitos",
 };
 
 export default function RootLayout({
@@ -18,13 +19,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" suppressHydrationWarning>
       <body className={inter.className}>
-        <PadraoIAProvider>
-          <Nav />
-          <main className="min-h-screen pb-16">{children}</main>
-          <ModalPadraoIA />
-        </PadraoIAProvider>
+        <ThemeProvider>
+          <PadraoIAProvider>
+            <Nav />
+            <main className="min-h-screen pb-16 bg-slate-50 dark:bg-slate-900">{children}</main>
+            <ModalPadraoIA />
+          </PadraoIAProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
