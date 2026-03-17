@@ -1,10 +1,20 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useId, useState, useEffect } from "react";
 import { usePadraoIA } from "@/context/PadraoIAContext";
 
 export default function RequisitosPage() {
-  const { padraoRequisitos } = usePadraoIA();
+  const { padraoRequisitosDocumentacao, padraoRequisitosTresAmigos } = usePadraoIA();
+
+  const clienteId = useId();
+  const analistaId = useId();
+  const requisitosId = useId();
+  const liderId = useId();
+  const desenvolvedorId = useId();
+  const qaId = useId();
+  const dataReuniaoId = useId();
+  const observacoesId = useId();
+
   const [cliente, setCliente] = useState("");
   const [analistaRequisitos, setAnalistaRequisitos] = useState("");
   const [requisitos, setRequisitos] = useState("");
@@ -43,7 +53,7 @@ export default function RequisitosPage() {
           cliente: cliente.trim(),
           analistaRequisitos: analistaRequisitos.trim(),
           requisitos: requisitos.trim() || undefined,
-          padrao: padraoRequisitos?.trim() || undefined,
+          padrao: padraoRequisitosDocumentacao?.trim() || undefined,
         }),
       });
       const data = await res.json();
@@ -76,6 +86,7 @@ export default function RequisitosPage() {
           qa: qa.trim(),
           dataReuniao: dataReuniao,
           observacoes: observacoes.trim(),
+          padrao: padraoRequisitosTresAmigos?.trim() || undefined,
         }),
       });
       const data = await res.json();
@@ -108,8 +119,9 @@ export default function RequisitosPage() {
         </h2>
         <div className="card space-y-4">
           <div>
-            <label className="label">Cliente *</label>
+            <label className="label" htmlFor={clienteId}>Cliente *</label>
             <input
+              id={clienteId}
               type="text"
               className="input-field"
               placeholder="Nome do cliente"
@@ -118,8 +130,9 @@ export default function RequisitosPage() {
             />
           </div>
           <div>
-            <label className="label">Analista de Requisitos *</label>
+            <label className="label" htmlFor={analistaId}>Analista de Requisitos *</label>
             <input
+              id={analistaId}
               type="text"
               className="input-field"
               placeholder="Nome do analista"
@@ -128,8 +141,9 @@ export default function RequisitosPage() {
             />
           </div>
           <div>
-            <label className="label">Requisitos coletados</label>
+            <label className="label" htmlFor={requisitosId}>Requisitos coletados</label>
             <textarea
+              id={requisitosId}
               className="input-field min-h-[140px] resize-y"
               placeholder="Descreva os requisitos, módulos, melhorias e alterações..."
               value={requisitos}
@@ -191,8 +205,9 @@ export default function RequisitosPage() {
         <div className="card space-y-4">
           <div className="grid gap-4 sm:grid-cols-3">
             <div>
-              <label className="label">Líder *</label>
+              <label className="label" htmlFor={liderId}>Líder *</label>
               <input
+                id={liderId}
                 type="text"
                 className="input-field"
                 placeholder="Nome do líder"
@@ -201,8 +216,9 @@ export default function RequisitosPage() {
               />
             </div>
             <div>
-              <label className="label">Desenvolvedor *</label>
+              <label className="label" htmlFor={desenvolvedorId}>Desenvolvedor *</label>
               <input
+                id={desenvolvedorId}
                 type="text"
                 className="input-field"
                 placeholder="Nome do dev"
@@ -211,8 +227,9 @@ export default function RequisitosPage() {
               />
             </div>
             <div>
-              <label className="label">QA *</label>
+              <label className="label" htmlFor={qaId}>QA *</label>
               <input
+                id={qaId}
                 type="text"
                 className="input-field"
                 placeholder="Nome do QA"
@@ -222,8 +239,9 @@ export default function RequisitosPage() {
             </div>
           </div>
           <div>
-            <label className="label">Data da reunião *</label>
+            <label className="label" htmlFor={dataReuniaoId}>Data da reunião *</label>
             <input
+              id={dataReuniaoId}
               type="date"
               className="input-field"
               value={dataReuniao}
@@ -231,8 +249,9 @@ export default function RequisitosPage() {
             />
           </div>
           <div>
-            <label className="label">Observações *</label>
+            <label className="label" htmlFor={observacoesId}>Observações *</label>
             <textarea
+              id={observacoesId}
               className="input-field min-h-[80px] resize-y"
               placeholder="Observações da reunião..."
               value={observacoes}

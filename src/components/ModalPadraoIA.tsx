@@ -1,22 +1,49 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useId, useState } from "react";
 import { usePadraoIA } from "@/context/PadraoIAContext";
 
 export function ModalPadraoIA() {
-  const { isModalOpen, closeModal, savePadroes, padraoQA, padraoSuporte, padraoRequisitos } =
-    usePadraoIA();
-  const [valorQA, setValorQA] = useState(padraoQA);
+  const {
+    isModalOpen,
+    closeModal,
+    savePadroes,
+    padraoQAPlanoTestes,
+    padraoQARelatoBug,
+    padraoSuporte,
+    padraoRequisitosDocumentacao,
+    padraoRequisitosTresAmigos,
+  } = usePadraoIA();
+  const [valorQAPlanoTestes, setValorQAPlanoTestes] = useState(padraoQAPlanoTestes);
+  const [valorQARelatoBug, setValorQARelatoBug] = useState(padraoQARelatoBug);
   const [valorSuporte, setValorSuporte] = useState(padraoSuporte);
-  const [valorRequisitos, setValorRequisitos] = useState(padraoRequisitos);
+  const [valorRequisitosDocumentacao, setValorRequisitosDocumentacao] =
+    useState(padraoRequisitosDocumentacao);
+  const [valorRequisitosTresAmigos, setValorRequisitosTresAmigos] =
+    useState(padraoRequisitosTresAmigos);
+
+  const idQAPlano = useId();
+  const idQABug = useId();
+  const idSuporte = useId();
+  const idReqDoc = useId();
+  const idReqTres = useId();
 
   useEffect(() => {
     if (isModalOpen) {
-      setValorQA(padraoQA);
+      setValorQAPlanoTestes(padraoQAPlanoTestes);
+      setValorQARelatoBug(padraoQARelatoBug);
       setValorSuporte(padraoSuporte);
-      setValorRequisitos(padraoRequisitos);
+      setValorRequisitosDocumentacao(padraoRequisitosDocumentacao);
+      setValorRequisitosTresAmigos(padraoRequisitosTresAmigos);
     }
-  }, [isModalOpen, padraoQA, padraoSuporte, padraoRequisitos]);
+  }, [
+    isModalOpen,
+    padraoQAPlanoTestes,
+    padraoQARelatoBug,
+    padraoSuporte,
+    padraoRequisitosDocumentacao,
+    padraoRequisitosTresAmigos,
+  ]);
 
   useEffect(() => {
     if (!isModalOpen) return;
@@ -31,9 +58,11 @@ export function ModalPadraoIA() {
 
   function handleSalvar() {
     savePadroes({
-      qa: valorQA,
+      qaPlanoTestes: valorQAPlanoTestes,
+      qaRelatoBug: valorQARelatoBug,
       suporte: valorSuporte,
-      requisitos: valorRequisitos,
+      requisitosDocumentacao: valorRequisitosDocumentacao,
+      requisitosTresAmigos: valorRequisitosTresAmigos,
     });
   }
 
@@ -62,28 +91,55 @@ export function ModalPadraoIA() {
 
         <div className="space-y-5">
           <div>
-            <label className="label font-medium text-slate-800 dark:text-slate-200">
-              Padrão para módulo QA
+            <label
+              className="label font-medium text-slate-800 dark:text-slate-200"
+              htmlFor={idQAPlano}
+            >
+              Padrão QA — Plano de Testes
             </label>
             <p className="mb-1 text-xs text-slate-500 dark:text-slate-400">
-              Aplicado em: plano de testes, relato de bug e documentação de novas funcionalidades.
+              Aplicado na geração do plano de testes.
             </p>
             <textarea
+              id={idQAPlano}
               className="input-field min-h-[100px] resize-y"
-              placeholder="Ex.: Use linguagem objetiva. Inclua sempre uma seção de riscos. Priorize cenários em tabela."
-              value={valorQA}
-              onChange={(e) => setValorQA(e.target.value)}
+              placeholder="Ex.: Use linguagem objetiva. Inclua riscos. Priorize cenários em tabela."
+              value={valorQAPlanoTestes}
+              onChange={(e) => setValorQAPlanoTestes(e.target.value)}
             />
           </div>
 
           <div>
-            <label className="label font-medium text-slate-800 dark:text-slate-200">
+            <label
+              className="label font-medium text-slate-800 dark:text-slate-200"
+              htmlFor={idQABug}
+            >
+              Padrão QA — Relato de Bug
+            </label>
+            <p className="mb-1 text-xs text-slate-500 dark:text-slate-400">
+              Aplicado na geração do relato de bug encontrado pelo QA.
+            </p>
+            <textarea
+              id={idQABug}
+              className="input-field min-h-[100px] resize-y"
+              placeholder="Ex.: Sempre inclua severidade, impacto, ambiente, passos para reproduzir e evidências."
+              value={valorQARelatoBug}
+              onChange={(e) => setValorQARelatoBug(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label
+              className="label font-medium text-slate-800 dark:text-slate-200"
+              htmlFor={idSuporte}
+            >
               Padrão para módulo Suporte
             </label>
             <p className="mb-1 text-xs text-slate-500 dark:text-slate-400">
               Aplicado na geração de relatos de bug a partir do relato do cliente.
             </p>
             <textarea
+              id={idSuporte}
               className="input-field min-h-[100px] resize-y"
               placeholder="Ex.: Sempre inclua severidade sugerida. Priorize passos para reproduzir. Use linguagem clara para o time técnico."
               value={valorSuporte}
@@ -92,17 +148,40 @@ export function ModalPadraoIA() {
           </div>
 
           <div>
-            <label className="label font-medium text-slate-800 dark:text-slate-200">
-              Padrão para módulo Requisitos
+            <label
+              className="label font-medium text-slate-800 dark:text-slate-200"
+              htmlFor={idReqDoc}
+            >
+              Padrão Requisitos — Documentação
             </label>
             <p className="mb-1 text-xs text-slate-500 dark:text-slate-400">
-              Aplicado na documentação de requisitos (cliente, analista, módulos, melhorias).
+              Aplicado na geração da documentação de requisitos (cliente, analista, módulos, melhorias).
             </p>
             <textarea
+              id={idReqDoc}
               className="input-field min-h-[100px] resize-y"
               placeholder="Ex.: Estruture por prioridade. Inclua critérios de aceite por item. Use linguagem formal."
-              value={valorRequisitos}
-              onChange={(e) => setValorRequisitos(e.target.value)}
+              value={valorRequisitosDocumentacao}
+              onChange={(e) => setValorRequisitosDocumentacao(e.target.value)}
+            />
+          </div>
+
+          <div>
+            <label
+              className="label font-medium text-slate-800 dark:text-slate-200"
+              htmlFor={idReqTres}
+            >
+              Padrão Requisitos — Reunião Três Amigos
+            </label>
+            <p className="mb-1 text-xs text-slate-500 dark:text-slate-400">
+              Aplicado ao registrar a decisão da reunião Três Amigos (Líder, Dev, QA).
+            </p>
+            <textarea
+              id={idReqTres}
+              className="input-field min-h-[100px] resize-y"
+              placeholder="Ex.: Gere uma ata curta com: participantes, data, decisão (Aprovado/Não aprovado), pendências e próximos passos."
+              value={valorRequisitosTresAmigos}
+              onChange={(e) => setValorRequisitosTresAmigos(e.target.value)}
             />
           </div>
         </div>

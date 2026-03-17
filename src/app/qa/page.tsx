@@ -1,8 +1,11 @@
 "use client";
 
 import { GeradorDocumento } from "@/components/GeradorDocumento";
+import { usePadraoIA } from "@/context/PadraoIAContext";
 
 export default function QAPage() {
+  const { padraoQAPlanoTestes, padraoQARelatoBug } = usePadraoIA();
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
       <header className="mb-8">
@@ -18,7 +21,7 @@ export default function QAPage() {
           placeholder="Descreva a funcionalidade, escopo e critérios de aceite para gerar o plano de testes..."
           endpoint="/api/gerar/plano-testes"
           labelBotao="Gerar plano de testes"
-          modulo="qa"
+          padrao={padraoQAPlanoTestes}
         />
 
         <GeradorDocumento
@@ -26,7 +29,7 @@ export default function QAPage() {
           placeholder="Descreva o bug com detalhes técnicos: ambiente, passos para reproduzir, mensagens de erro, componente afetado, logs..."
           endpoint="/api/gerar/relato-bug"
           labelBotao="Gerar relato de bug"
-          modulo="qa"
+          padrao={padraoQARelatoBug}
         />
       </div>
     </div>

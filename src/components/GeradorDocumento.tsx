@@ -1,16 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { usePadraoIA } from "@/context/PadraoIAContext";
-
-type ModuloPadrao = "qa" | "suporte";
+import { useId, useState, useEffect } from "react";
 
 type GeradorDocumentoProps = {
   titulo: string;
   placeholder: string;
   endpoint: string;
   labelBotao?: string;
-  modulo: ModuloPadrao;
+  padrao?: string;
 };
 
 export function GeradorDocumento({
@@ -18,10 +15,9 @@ export function GeradorDocumento({
   placeholder,
   endpoint,
   labelBotao = "Gerar documentação",
-  modulo,
+  padrao,
 }: GeradorDocumentoProps) {
-  const { padraoQA, padraoSuporte } = usePadraoIA();
-  const padrao = modulo === "qa" ? padraoQA : padraoSuporte;
+  const contextoId = useId();
   const [contexto, setContexto] = useState("");
   const [documento, setDocumento] = useState("");
   const [carregando, setCarregando] = useState(false);
@@ -63,8 +59,9 @@ export function GeradorDocumento({
   return (
     <div className="card">
       <h3 className="mb-3 text-lg font-semibold text-slate-800 dark:text-slate-100">{titulo}</h3>
-      <label className="label">Contexto</label>
+      <label className="label" htmlFor={contextoId}>Contexto</label>
       <textarea
+        id={contextoId}
         className="input-field min-h-[120px] resize-y"
         placeholder={placeholder}
         value={contexto}

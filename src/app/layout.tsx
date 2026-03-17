@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Nav } from "@/components/Nav";
+import { Footer } from "@/components/Footer";
 import { PadraoIAProvider } from "@/context/PadraoIAContext";
 import { ThemeProvider } from "@/context/ThemeContext";
 import { ModalPadraoIA } from "@/components/ModalPadraoIA";
@@ -24,7 +25,8 @@ export default function RootLayout({
         <ThemeProvider>
           <PadraoIAProvider>
             <Nav />
-            <main className="min-h-screen pb-16 bg-slate-50 dark:bg-slate-900">{children}</main>
+            <main className="min-h-screen bg-slate-50 pb-12 dark:bg-slate-900">{children}</main>
+            <Footer />
             <ModalPadraoIA />
           </PadraoIAProvider>
         </ThemeProvider>

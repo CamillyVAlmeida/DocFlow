@@ -1,8 +1,11 @@
 "use client";
 
 import { GeradorDocumento } from "@/components/GeradorDocumento";
+import { usePadraoIA } from "@/context/PadraoIAContext";
 
 export default function SuportePage() {
+  const { padraoSuporte } = usePadraoIA();
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
       <header className="mb-8">
@@ -20,7 +23,7 @@ export default function SuportePage() {
         placeholder="Cole ou descreva o que o cliente reportou: mensagem, e-mail, chamado, descrição do problema, tela ou fluxo afetado..."
         endpoint="/api/gerar/relato-bug-cliente"
         labelBotao="Gerar relato de bug"
-        modulo="suporte"
+        padrao={padraoSuporte}
       />
     </div>
   );
