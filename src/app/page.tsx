@@ -2,7 +2,7 @@ import Link from "next/link";
 
 function IconQA() {
   return (
-    <div className="mb-3 flex h-14 w-14 items-center justify-center">
+    <div className="mb-2 flex h-12 w-12 items-center justify-center">
       <svg
         viewBox="0 0 56 56"
         fill="none"
@@ -32,14 +32,13 @@ function IconQA() {
 
 function IconSuporte() {
   return (
-    <div className="mb-3 flex h-14 w-14 items-center justify-center">
+    <div className="mb-2 flex h-12 w-12 items-center justify-center">
       <svg
         viewBox="0 0 56 56"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="h-full w-full"
       >
-        {/* < */}
         <path
           d="M32 16L18 28l14 12"
           stroke="currentColor"
@@ -48,7 +47,6 @@ function IconSuporte() {
           strokeLinejoin="round"
           className="text-accent-dev"
         />
-        {/* > */}
         <path
           d="M24 16l14 12-14 12"
           stroke="currentColor"
@@ -64,7 +62,7 @@ function IconSuporte() {
 
 function IconRequisitos() {
   return (
-    <div className="mb-3 flex h-14 w-14 items-center justify-center">
+    <div className="mb-2 flex h-12 w-12 items-center justify-center">
       <svg
         viewBox="0 0 56 56"
         fill="none"
@@ -106,25 +104,28 @@ function IconRequisitos() {
 const modules = [
   {
     href: "/qa",
-    title: "Quality Assurance",
-    description:
-      "Plano de testes e relato de bug com detalhes técnicos.",
+    title: "QA & Testes",
+    description: "Plano de testes e relato de bug com detalhes técnicos.",
+    explicacao:
+      "Gere planos de teste a partir do contexto da funcionalidade e relatos de bug estruturados (ambiente, passos, evidências) para uso da equipe de desenvolvimento.",
     color: "accent-qa",
     Icon: IconQA,
   },
   {
     href: "/suporte",
-    title: "Suporte e Atendimento",
-    description:
-      "Geração de relatos de bug estruturados a partir dos relatos dos clientes.",
+    title: "Suporte & Atendimento",
+    description: "Relatos de bug estruturados a partir dos relatos dos clientes.",
+    explicacao:
+      "Transforme descrições informais de clientes em relatos de bug padronizados, prontos para o time técnico e QA, com severidade e passos para reproduzir.",
     color: "accent-dev",
     Icon: IconSuporte,
   },
   {
     href: "/requisitos",
-    title: "Requisitos e Especificação",
-    description:
-      "Documentação de requisitos e especificações.",
+    title: "Requisitos & Especificação",
+    description: "Documentação de requisitos e fluxo da reunião Três Amigos.",
+    explicacao:
+      "Documente requisitos (cliente, analista, módulos) e registre a decisão da reunião Três Amigos (Líder, Dev, QA) com ata e próximos passos.",
     color: "accent-req",
     Icon: IconRequisitos,
   },
@@ -132,35 +133,45 @@ const modules = [
 
 export default function HomePage() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12">
-      <section className="mb-16 text-center">
-        <h1 className="mb-3 text-4xl font-bold text-slate-800 dark:text-slate-100">
+    <div className="mx-auto flex max-w-6xl flex-1 flex-col justify-center px-4 py-6">
+      <section className="mb-8 text-center">
+        <h1 className="mb-2 text-3xl font-bold text-slate-800 dark:text-slate-100 sm:text-4xl">
           DocFlow
         </h1>
-        <p className="text-lg text-slate-600 dark:text-slate-400">
+        <p className="text-base text-slate-600 dark:text-slate-400 sm:text-lg">
           Sistema de geração de documentação para QA, Suporte e Requisitos
         </p>
       </section>
 
-      <section className="grid gap-6 sm:grid-cols-3">
-        {modules.map(({ href, title, description, color, Icon }) => (
-          <Link key={href} href={href}>
-            <article
-              className={`card h-full border-l-4 ${
-                color === "accent-qa"
-                  ? "border-accent-qa"
-                  : color === "accent-dev"
-                    ? "border-accent-dev"
-                    : "border-accent-req"
-              }`}
+      <section className="grid gap-4 sm:grid-cols-3">
+        {modules.map(({ href, title, description, explicacao, color, Icon }) => (
+          <article
+            key={href}
+            className={`card flex h-full flex-col border-l-4 p-4 ${
+              color === "accent-qa"
+                ? "border-accent-qa"
+                : color === "accent-dev"
+                  ? "border-accent-dev"
+                  : "border-accent-req"
+            }`}
+          >
+            <Icon />
+            <h2 className="mb-1.5 text-base font-semibold text-slate-800 dark:text-slate-100 sm:text-lg">
+              {title}
+            </h2>
+            <p className="mb-1.5 text-sm text-slate-600 dark:text-slate-400">
+              {description}
+            </p>
+            <p className="mb-3 flex-1 text-xs text-slate-500 dark:text-slate-400 sm:text-sm">
+              {explicacao}
+            </p>
+            <Link
+              href={href}
+              className="mt-auto flex w-full justify-center rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800"
             >
-              <Icon />
-              <h2 className="mb-2 text-lg font-semibold text-slate-800 dark:text-slate-100">
-                {title}
-              </h2>
-              <p className="text-slate-600 dark:text-slate-400">{description}</p>
-            </article>
-          </Link>
+              Acessar módulo
+            </Link>
+          </article>
         ))}
       </section>
     </div>

@@ -15,11 +15,12 @@
 body {
   color: var(--foreground);
   background: var(--background);
+  overflow-x: hidden;
 }
 
 @layer components {
   .card {
-    @apply rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition hover:shadow-md dark:border-slate-700 dark:bg-slate-800;
+    @apply rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition duration-200 hover:-translate-y-0.5 hover:shadow-md dark:border-slate-700 dark:bg-slate-800;
   }
   .btn-primary {
     @apply rounded-lg bg-primary-600 px-4 py-2 font-medium text-white transition hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 dark:focus:ring-offset-slate-800;

@@ -62,7 +62,7 @@ export function GeradorDocumento({
       <label className="label" htmlFor={contextoId}>Contexto</label>
       <textarea
         id={contextoId}
-        className="input-field min-h-[120px] resize-y"
+        className="input-field h-[200px] min-h-[200px] resize-y"
         placeholder={placeholder}
         value={contexto}
         onChange={(e) => setContexto(e.target.value)}

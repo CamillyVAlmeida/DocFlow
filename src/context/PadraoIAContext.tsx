@@ -29,6 +29,8 @@ export type PadroesIA = {
   requisitosTresAmigos: string;
 };
 
+export type ModalSection = "qa" | "suporte" | "requisitos";
+
 type PadraoIAContextType = {
   padraoQAPlanoTestes: string;
   padraoQARelatoBug: string;
@@ -36,7 +38,8 @@ type PadraoIAContextType = {
   padraoRequisitosDocumentacao: string;
   padraoRequisitosTresAmigos: string;
   isModalOpen: boolean;
-  openModal: () => void;
+  modalSection: ModalSection | null;
+  openModal: (section?: ModalSection) => void;
   closeModal: () => void;
   savePadroes: (padroes: PadroesIA) => void;
 };
@@ -50,6 +53,7 @@ export function PadraoIAProvider({ children }: { children: ReactNode }) {
   const [padraoRequisitosDocumentacao, setPadraoRequisitosDocumentacao] = useState("");
   const [padraoRequisitosTresAmigos, setPadraoRequisitosTresAmigos] = useState("");
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalSection, setModalSection] = useState<ModalSection | null>(null);
 
   useEffect(() => {
     const qaPlano = localStorage.getItem(STORAGE_QA_PLANO_TESTES);
@@ -89,10 +93,17 @@ export function PadraoIAProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(STORAGE_REQUISITOS_DOCUMENTACAO, padroes.requisitosDocumentacao);
     localStorage.setItem(STORAGE_REQUISITOS_TRES_AMIGOS, padroes.requisitosTresAmigos);
     setIsModalOpen(false);
+    setModalSection(null);
   }, []);
 
-  const openModal = useCallback(() => setIsModalOpen(true), []);
-  const closeModal = useCallback(() => setIsModalOpen(false), []);
+  const openModal = useCallback((section?: ModalSection) => {
+    setModalSection(section ?? null);
+    setIsModalOpen(true);
+  }, []);
+  const closeModal = useCallback(() => {
+    setIsModalOpen(false);
+    setModalSection(null);
+  }, []);
 
   return (
     <PadraoIAContext.Provider
@@ -103,6 +114,7 @@ export function PadraoIAProvider({ children }: { children: ReactNode }) {
         padraoRequisitosDocumentacao,
         padraoRequisitosTresAmigos,
         isModalOpen,
+        modalSection,
         openModal,
         closeModal,
         savePadroes,

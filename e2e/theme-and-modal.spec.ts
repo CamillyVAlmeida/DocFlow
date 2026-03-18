@@ -4,11 +4,11 @@ test("toggle de tema não quebra e persiste", async ({ page }) => {
   await page.goto("/");
 
   const html = page.locator("html");
-  const btn = page.getByRole("button", { name: /modo escuro/i });
+  const btn = page.getByRole("button", { name: /ativar modo escuro/i });
 
   await expect(html).not.toHaveClass(/dark/);
   await btn.click();
-  await expect(page.getByRole("button", { name: /modo claro/i })).toBeVisible();
+  await expect(page.getByRole("button", { name: /ativar modo claro/i })).toBeVisible();
   await expect(html).toHaveClass(/dark/);
 
   // Recarrega: deve manter o tema via localStorage
@@ -19,7 +19,7 @@ test("toggle de tema não quebra e persiste", async ({ page }) => {
 test("modal de Configuração de IA abre e salva padrões", async ({ page }) => {
   await page.goto("/");
 
-  await page.getByRole("button", { name: /Configuração de IA/i }).click();
+  await page.getByRole("button", { name: "Padrão QA" }).click();
   await expect(page.getByRole("heading", { name: /Configurar padrão da IA/i })).toBeVisible();
 
   await page.getByLabel(/Padrão QA — Plano de Testes/i).fill("PAD_QA_PLANO");

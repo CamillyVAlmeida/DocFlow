@@ -21,11 +21,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={`${inter.className} flex min-h-screen flex-col`}>
         <ThemeProvider>
           <PadraoIAProvider>
             <Nav />
-            <main className="min-h-screen bg-slate-50 pb-12 dark:bg-slate-900">{children}</main>
+            <main className="flex min-h-0 flex-1 flex-col bg-slate-50 pb-6 dark:bg-slate-900">{children}</main>
             <Footer />
             <ModalPadraoIA />
           </PadraoIAProvider>
