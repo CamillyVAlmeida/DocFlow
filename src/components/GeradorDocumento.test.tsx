@@ -2,16 +2,20 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
 import { GeradorDocumento } from "./GeradorDocumento";
+import {
+  MSG_DOCUMENTO_ERRO_API,
+  MSG_DOCUMENTO_SUCESSO,
+  MSG_DOCUMENTO_VALIDACAO,
+} from "./ToastDocumento";
 import { createRandomQA } from "@/test-utils/randomData";
 
 describe("GeradorDocumento", () => {
   beforeEach(() => {
-    // @ts-expect-error - fetch is mocked in tests
-    global.fetch = undefined;
+    global.fetch = undefined as typeof fetch;
     jest.clearAllMocks();
   });
 
-  it("exibe erro quando contexto está vazio", async () => {
+  it("exibe popup quando contexto está vazio", async () => {
     const user = userEvent.setup();
     render(
       <GeradorDocumento
@@ -23,7 +27,9 @@ describe("GeradorDocumento", () => {
     );
 
     await user.click(screen.getByRole("button", { name: "Gerar" }));
-    expect(screen.getByText("Informe o contexto.")).toBeInTheDocument();
+    expect(await screen.findByTestId("toast-documento")).toHaveTextContent(
+      MSG_DOCUMENTO_VALIDACAO
+    );
   });
 
   it("chama o endpoint com contexto e padrão e renderiza o documento ao sucesso", async () => {
@@ -33,8 +39,7 @@ describe("GeradorDocumento", () => {
       ok: true,
       json: async () => ({ documento: "DOC_OK" }),
     });
-    // @ts-expect-error - assign fetch mock
-    global.fetch = fetchMock;
+    global.fetch = fetchMock as typeof fetch;
 
     render(
       <GeradorDocumento
@@ -46,7 +51,7 @@ describe("GeradorDocumento", () => {
       />
     );
 
-    await user.type(screen.getByLabelText("Contexto"), `  ${qaData.contextoPlano}  `);
+    await user.type(screen.getByLabelText(/^Contexto/), `  ${qaData.contextoPlano}  `);
     await user.click(screen.getByRole("button", { name: "Gerar" }));
 
     await waitFor(() => expect(fetchMock).toHaveBeenCalledTimes(1));
@@ -60,6 +65,9 @@ describe("GeradorDocumento", () => {
 
     expect(await screen.findByText("Documento gerado")).toBeInTheDocument();
     expect(screen.getByText("DOC_OK")).toBeInTheDocument();
+    expect(await screen.findByTestId("toast-documento")).toHaveTextContent(
+      MSG_DOCUMENTO_SUCESSO
+    );
   });
 
   it("mostra mensagem de erro quando o endpoint retorna erro", async () => {
@@ -68,8 +76,7 @@ describe("GeradorDocumento", () => {
       ok: false,
       json: async () => ({ erro: "Falhou" }),
     });
-    // @ts-expect-error - assign fetch mock
-    global.fetch = fetchMock;
+    global.fetch = fetchMock as typeof fetch;
 
     render(
       <GeradorDocumento
@@ -80,10 +87,12 @@ describe("GeradorDocumento", () => {
       />
     );
 
-    await user.type(screen.getByLabelText("Contexto"), "CONTEXTO");
+    await user.type(screen.getByLabelText(/^Contexto/), "CONTEXTO");
     await user.click(screen.getByRole("button", { name: "Gerar" }));
 
-    expect(await screen.findByText("Falhou")).toBeInTheDocument();
+    expect(await screen.findByTestId("toast-documento")).toHaveTextContent(
+      MSG_DOCUMENTO_ERRO_API
+    );
   });
 
   it("copia o documento para a área de transferência", async () => {
@@ -93,8 +102,7 @@ describe("GeradorDocumento", () => {
       ok: true,
       json: async () => ({ documento: "DOC_COPY" }),
     });
-    // @ts-expect-error - assign fetch mock
-    global.fetch = fetchMock;
+    global.fetch = fetchMock as typeof fetch;
 
     render(
       <GeradorDocumento
@@ -105,13 +113,15 @@ describe("GeradorDocumento", () => {
       />
     );
 
-    await user.type(screen.getByLabelText("Contexto"), "CONTEXTO");
+    await user.type(screen.getByLabelText(/^Contexto/), "CONTEXTO");
     await user.click(screen.getByRole("button", { name: "Gerar" }));
     await screen.findByText("DOC_COPY");
 
     await user.click(screen.getByRole("button", { name: "Copiar" }));
     expect(writeSpy).toHaveBeenCalledWith("DOC_COPY");
-    expect(await screen.findByRole("alert")).toHaveTextContent("Texto copiado com sucesso!");
+    expect(
+      await screen.findByText("Texto copiado com sucesso!")
+    ).toBeInTheDocument();
   });
 });
 

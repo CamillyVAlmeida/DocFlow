@@ -4,13 +4,14 @@ import { gerarComIA } from "@/lib/gemini";
 export async function POST(request: NextRequest) {
   try {
     const { contexto, padrao } = await request.json();
-    if (!contexto || typeof contexto !== "string") {
+    if (typeof contexto !== "string" || !contexto.trim()) {
       return NextResponse.json(
         { erro: "Campo 'contexto' é obrigatório." },
         { status: 400 }
       );
     }
 
+    const contextoLimpo = contexto.trim();
     const dataGeracao = new Date().toLocaleDateString("pt-BR");
     const instrucaoPadrao =
       padrao && typeof padrao === "string" && padrao.trim()
@@ -32,7 +33,7 @@ Responda APENAS com o documento em Markdown, sem texto introdutório antes ou de
 
 CONTEXTO FORNECIDO PELO QA:
 ---
-${contexto}
+${contextoLimpo}
 ---`;
 
     const documento = await gerarComIA(prompt);

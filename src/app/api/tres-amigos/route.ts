@@ -34,15 +34,9 @@ export async function POST(request: NextRequest) {
         ? `\nPADRÃO DEFINIDO PELO USUÁRIO (siga rigorosamente ao escrever o documento):\n${padrao.trim()}\n\n`
         : "";
 
-    // Se não houver padrão, mantém o comportamento antigo (sem uso de IA).
-    if (!instrucaoPadrao) {
-      return NextResponse.json({
-        mensagem: "Decisão da reunião Três Amigos registrada com sucesso.",
-        registro,
-      });
-    }
-
     const prompt = `${instrucaoPadrao}Você é um analista de requisitos. Gere um REGISTRO DA REUNIÃO TRÊS AMIGOS em Markdown, pronto para arquivamento.
+
+O documento deve ser uma ata que descreva o que foi discutido na reunião, as decisões tomadas e o planejamento acordado (prazos, próximos passos, responsáveis), com base nas notas abaixo. Não limite o texto a apenas \"aprovado/não aprovado\": desenvolva o contexto das decisões e do alinhamento da equipe.
 
 Dados:
 - ID do requisito: ${id}
@@ -51,16 +45,16 @@ Dados:
   - Líder: ${lider}
   - Desenvolvedor: ${desenvolvedor}
   - QA: ${qa}
-- Observações informadas:
+- Notas da reunião (decisões, planejamento, pontos discutidos):
 ${obs}
 
-O documento deve incluir:
+O documento deve incluir, de forma clara:
 1. Título \"Reunião Três Amigos\" e data
 2. Identificação do requisito (ID)
 3. Participantes (em tabela ou lista)
-4. Decisão (Aprovado / Não aprovado / Pendente) — se não estiver explícito nas observações, sinalize como \"Pendente\" e justifique
-5. Pendências e responsáveis (se aplicável)
-6. Próximos passos
+4. Resumo do que foi discutido e decisões (incluindo aprovação ou não do pedido, quando aplicável)
+5. Planejamento e próximos passos (com responsáveis e pendências, se houver)
+6. Se alguma decisão não estiver explícita nas notas, sinalize como pendência ou \"a definir\" em vez de inventar fatos
 
 Responda APENAS com o documento em Markdown, sem texto introdutório antes ou depois.`;
 

@@ -29,14 +29,15 @@ test("QA: gera plano de testes e relato de bug (com mock de API)", async ({ page
 
   // 1) Plano de testes
   await page.getByRole("heading", { name: "1. Plano de Testes" }).scrollIntoViewIfNeeded();
-  await page.getByLabel("Contexto").first().fill(qaData.contextoPlano);
+  await page.getByLabel(/Contexto/i).first().fill(qaData.contextoPlano);
   await page.getByRole("button", { name: /Gerar plano de testes/i }).click();
   await expect(page.getByText("Documento gerado").first()).toBeVisible();
   await expect(page.getByText(/# Plano/)).toBeVisible();
+  await expect(page.getByText("documento gerado com sucesso.")).toBeVisible();
 
   // 2) Relato de bug
   await page.getByRole("heading", { name: "2. Relato de Bug" }).scrollIntoViewIfNeeded();
-  await page.getByLabel("Contexto").nth(1).fill(qaData.contextoBug);
+  await page.getByLabel(/Contexto/i).nth(1).fill(qaData.contextoBug);
   await page.getByRole("button", { name: /Gerar relato de bug/i }).click();
   await expect(page.getByText(/# Bug/)).toBeVisible();
 });
@@ -84,16 +85,23 @@ test("Requisitos: gera documentação (mock) e registra Três Amigos (mock)", as
   // Documentação
   await page.getByLabel(/Cliente \*/i).fill(dados.cliente);
   await page.getByLabel(/Analista de Requisitos \*/i).fill(dados.analista);
+  await page.getByLabel(/Requisitos coletados/i).fill(dados.requisitos);
   await page.getByRole("button", { name: /Gerar documentação/i }).click();
   await expect(page.getByText(/# Requisitos/)).toBeVisible();
+  await expect(
+    page.locator('[data-testid="toast-documento"]').filter({ hasText: "documento gerado com sucesso." })
+  ).toBeVisible();
 
   // Reunião Três Amigos
   await page.getByLabel("Líder *").fill(dados.lider);
   await page.getByLabel("Desenvolvedor *").fill(dados.desenvolvedor);
   await page.getByLabel("QA *").fill(dados.qa);
   await page.getByLabel("Data da reunião *").fill(dados.dataReuniao);
-  await page.getByLabel("Observações *").fill(dados.observacoes);
-  await page.getByRole("button", { name: /Registrar decisão/i }).click();
-  await expect(page.getByText(/registrada com sucesso/i)).toBeVisible();
+  await page.getByLabel("Notas da reunião *").fill(dados.observacoes);
+  await page.getByRole("button", { name: /Gerar ata da reunião/i }).click();
+  await expect(
+    page.locator('[data-testid="toast-documento"]').filter({ hasText: "documento gerado com sucesso." })
+  ).toBeVisible();
+  await expect(page.getByText(/# Reunião/)).toBeVisible();
 });
 

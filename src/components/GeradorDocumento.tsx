@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useState, useEffect } from "react";
+import { ToastDocumento, type ToastDocumentoVariante } from "./ToastDocumento";
 
 type GeradorDocumentoProps = {
   titulo: string;
@@ -8,6 +9,8 @@ type GeradorDocumentoProps = {
   endpoint: string;
   labelBotao?: string;
   padrao?: string;
+  /** Quando false, o título não é exibido no card (útil quando a página já define o título na seção). */
+  mostrarTituloCard?: boolean;
 };
 
 export function GeradorDocumento({
@@ -16,12 +19,13 @@ export function GeradorDocumento({
   endpoint,
   labelBotao = "Gerar documentação",
   padrao,
+  mostrarTituloCard = true,
 }: GeradorDocumentoProps) {
   const contextoId = useId();
   const [contexto, setContexto] = useState("");
   const [documento, setDocumento] = useState("");
   const [carregando, setCarregando] = useState(false);
-  const [erro, setErro] = useState("");
+  const [toastGeracao, setToastGeracao] = useState<ToastDocumentoVariante>(null);
   const [mostrarCopiado, setMostrarCopiado] = useState(false);
 
   useEffect(() => {
@@ -32,10 +36,9 @@ export function GeradorDocumento({
 
   async function handleGerar() {
     if (!contexto.trim()) {
-      setErro("Informe o contexto.");
+      setToastGeracao("validacao");
       return;
     }
-    setErro("");
     setCarregando(true);
     try {
       const res = await fetch(endpoint, {
@@ -47,10 +50,14 @@ export function GeradorDocumento({
         }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.erro || "Erro ao gerar.");
+      if (!res.ok) {
+        setToastGeracao("api");
+        return;
+      }
       setDocumento(data.documento);
-    } catch (e) {
-      setErro(e instanceof Error ? e.message : "Erro ao gerar documentação.");
+      setToastGeracao("sucesso");
+    } catch {
+      setToastGeracao("api");
     } finally {
       setCarregando(false);
     }
@@ -58,16 +65,21 @@ export function GeradorDocumento({
 
   return (
     <div className="card">
-      <h3 className="mb-3 text-lg font-semibold text-slate-800 dark:text-slate-100">{titulo}</h3>
-      <label className="label" htmlFor={contextoId}>Contexto</label>
+      {mostrarTituloCard && (
+        <h3 className="mb-3 text-lg font-semibold text-slate-800 dark:text-slate-100">{titulo}</h3>
+      )}
+      <label className="label" htmlFor={contextoId}>
+        Contexto <span className="text-red-600 dark:text-red-400">*</span>
+      </label>
       <textarea
         id={contextoId}
         className="input-field h-[200px] min-h-[200px] resize-y"
         placeholder={placeholder}
         value={contexto}
         onChange={(e) => setContexto(e.target.value)}
+        required
+        aria-required={true}
       />
-      {erro && <p className="mt-1 text-sm text-red-600 dark:text-red-400">{erro}</p>}
       <button
         type="button"
         onClick={handleGerar}
@@ -96,10 +108,14 @@ export function GeradorDocumento({
           </pre>
         </div>
       )}
+      <ToastDocumento
+        variante={toastGeracao}
+        onFechar={() => setToastGeracao(null)}
+      />
       {mostrarCopiado && (
         <div
           role="alert"
-          className="fixed bottom-6 left-1/2 z-[60] -translate-x-1/2 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-800 shadow-lg dark:border-green-800 dark:bg-green-900/50 dark:text-green-200"
+          className="fixed bottom-20 left-1/2 z-[60] -translate-x-1/2 rounded-lg border border-green-200 bg-green-50 px-4 py-3 text-sm font-medium text-green-800 shadow-lg dark:border-green-800 dark:bg-green-900/50 dark:text-green-200"
         >
           Texto copiado com sucesso!
         </div>

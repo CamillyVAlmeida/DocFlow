@@ -198,12 +198,13 @@ export function ModalPadraoIA() {
                   Padrão Requisitos — Reunião Três Amigos
                 </label>
                 <p className="mb-1 text-xs text-slate-500 dark:text-slate-400">
-                  Aplicado ao registrar a decisão da reunião Três Amigos (Líder, Dev, QA).
+                  Aplicado ao gerar a ata em Markdown da reunião Três Amigos (decisões, planejamento,
+                  participantes). Se vazio, usa o padrão da documentação de requisitos acima.
                 </p>
                 <textarea
                   id={idReqTres}
                   className="input-field min-h-[100px] resize-y"
-                  placeholder="Defina aqui o padrão que a IA deve seguir para a reunião Três Amigos."
+                  placeholder="Defina estrutura e tom da ata (ex.: seções, tabelas, nível de detalhe)."
                   value={valorRequisitosTresAmigos}
                   onChange={(e) => setValorRequisitosTresAmigos(e.target.value)}
                 />

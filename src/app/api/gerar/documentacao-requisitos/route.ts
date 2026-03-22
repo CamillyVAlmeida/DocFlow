@@ -4,15 +4,26 @@ import { gerarComIA } from "@/lib/gemini";
 export async function POST(request: NextRequest) {
   try {
     const { cliente, analistaRequisitos, requisitos, padrao } = await request.json();
-    if (!cliente || !analistaRequisitos) {
+    const clienteLimpo = typeof cliente === "string" ? cliente.trim() : "";
+    const analistaLimpo =
+      typeof analistaRequisitos === "string" ? analistaRequisitos.trim() : "";
+    const requisitosLimpos = typeof requisitos === "string" ? requisitos.trim() : "";
+
+    if (!clienteLimpo || !analistaLimpo) {
       return NextResponse.json(
         { erro: "Campos 'cliente' e 'analistaRequisitos' são obrigatórios." },
         { status: 400 }
       );
     }
+    if (!requisitosLimpos) {
+      return NextResponse.json(
+        { erro: "Campo 'requisitos' (requisitos coletados) é obrigatório." },
+        { status: 400 }
+      );
+    }
 
     const dataGeracao = new Date().toLocaleDateString("pt-BR");
-    const textoRequisitos = requisitos?.trim() || "(Requisitos não informados no formulário.)";
+    const textoRequisitos = requisitosLimpos;
     const instrucaoPadrao =
       padrao && typeof padrao === "string" && padrao.trim()
         ? `\nPADRÃO DEFINIDO PELO USUÁRIO (siga rigorosamente ao escrever o documento):\n${padrao.trim()}\n\n`
@@ -21,8 +32,8 @@ export async function POST(request: NextRequest) {
     const prompt = `${instrucaoPadrao}Você é um analista de requisitos. Gere uma DOCUMENTAÇÃO DE REQUISITOS completa e pronta em Markdown com as informações abaixo.
 
 Dados obrigatórios:
-- Cliente: ${cliente}
-- Analista de Requisitos: ${analistaRequisitos}
+- Cliente: ${clienteLimpo}
+- Analista de Requisitos: ${analistaLimpo}
 - Requisitos coletados / contexto: ${textoRequisitos}
 
 O documento deve incluir:
