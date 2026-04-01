@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { gerarComIA } from "@/lib/gemini";
+import { gerarComIA } from "@/lib/gerar-ia";
+import { montarPromptGeracao } from "@/lib/prompt-padrao-usuario";
 
 export async function POST(request: NextRequest) {
   try {
@@ -13,12 +14,8 @@ export async function POST(request: NextRequest) {
 
     const contextoLimpo = contexto.trim();
     const dataGeracao = new Date().toLocaleDateString("pt-BR");
-    const instrucaoPadrao =
-      padrao && typeof padrao === "string" && padrao.trim()
-        ? `\nPADRÃO DEFINIDO PELO USUÁRIO (siga rigorosamente ao escrever o documento):\n${padrao.trim()}\n\n`
-        : "";
 
-    const prompt = `${instrucaoPadrao}Você é um especialista em QA e testes de software. Com base no contexto abaixo, gere um PLANO DE TESTES completo em Markdown, pronto para uso pela equipe.
+    const promptSemPadrao = `Você é um especialista em QA e testes de software. Com base no contexto abaixo, gere um PLANO DE TESTES completo em Markdown, pronto para uso pela equipe.
 
 Inclua:
 1. Título e data de geração (use: ${dataGeracao})
@@ -35,6 +32,16 @@ CONTEXTO FORNECIDO PELO QA:
 ---
 ${contextoLimpo}
 ---`;
+
+    const prompt = montarPromptGeracao({
+      padrao,
+      papel: "um especialista em QA e testes de software",
+      tarefaComPadrao:
+        "Produza um único plano de testes em Markdown aplicando exclusivamente o padrão acima.",
+      promptSemPadrao,
+      conteudoEntrada: contextoLimpo,
+      labelConteudo: "CONTEXTO FORNECIDO PELO QA",
+    });
 
     const documento = await gerarComIA(prompt);
     return NextResponse.json({ documento });

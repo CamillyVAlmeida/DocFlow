@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { gerarComIA } from "@/lib/gemini";
+import { gerarComIA } from "@/lib/gerar-ia";
+import { montarPromptGeracao } from "@/lib/prompt-padrao-usuario";
 
 export async function POST(request: NextRequest) {
   try {
@@ -24,12 +25,13 @@ export async function POST(request: NextRequest) {
 
     const dataGeracao = new Date().toLocaleDateString("pt-BR");
     const textoRequisitos = requisitosLimpos;
-    const instrucaoPadrao =
-      padrao && typeof padrao === "string" && padrao.trim()
-        ? `\nPADRÃO DEFINIDO PELO USUÁRIO (siga rigorosamente ao escrever o documento):\n${padrao.trim()}\n\n`
-        : "";
 
-    const prompt = `${instrucaoPadrao}Você é um analista de requisitos. Gere uma DOCUMENTAÇÃO DE REQUISITOS completa e pronta em Markdown com as informações abaixo.
+    const conteudoEntrada = `Cliente: ${clienteLimpo}
+Analista de Requisitos: ${analistaLimpo}
+Requisitos coletados / contexto:
+${textoRequisitos}`;
+
+    const promptSemPadrao = `Você é um analista de requisitos. Gere uma DOCUMENTAÇÃO DE REQUISITOS completa e pronta em Markdown com as informações abaixo.
 
 Dados obrigatórios:
 - Cliente: ${clienteLimpo}
@@ -44,6 +46,16 @@ O documento deve incluir:
 5. Próximos passos: reunião Três Amigos (Líder, Desenvolvedor, QA), análise do pedido do cliente, decisão Aprovado ou Não Aprovado
 
 Responda APENAS com o documento em Markdown, sem texto introdutório antes ou depois.`;
+
+    const prompt = montarPromptGeracao({
+      padrao,
+      papel: "um analista de requisitos",
+      tarefaComPadrao:
+        "Produza uma única documentação de requisitos em Markdown aplicando exclusivamente o padrão acima.",
+      promptSemPadrao,
+      conteudoEntrada,
+      labelConteudo: "DADOS INFORMADOS",
+    });
 
     const documento = await gerarComIA(prompt);
     return NextResponse.json({ documento });

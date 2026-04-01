@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { gerarComIA } from "@/lib/gemini";
+import { gerarComIA } from "@/lib/gerar-ia";
+import { montarPromptGeracao } from "@/lib/prompt-padrao-usuario";
 
 export async function POST(request: NextRequest) {
   try {
@@ -29,12 +30,16 @@ export async function POST(request: NextRequest) {
       registradoEm: new Date().toISOString(),
     };
 
-    const instrucaoPadrao =
-      padrao && typeof padrao === "string" && padrao.trim()
-        ? `\nPADRÃO DEFINIDO PELO USUÁRIO (siga rigorosamente ao escrever o documento):\n${padrao.trim()}\n\n`
-        : "";
+    const conteudoEntrada = `- ID do requisito: ${id}
+- Data da reunião: ${dataReuniao}
+- Participantes:
+  - Líder: ${lider}
+  - Desenvolvedor: ${desenvolvedor}
+  - QA: ${qa}
+- Notas da reunião (decisões, planejamento, pontos discutidos):
+${obs}`;
 
-    const prompt = `${instrucaoPadrao}Você é um analista de requisitos. Gere um REGISTRO DA REUNIÃO TRÊS AMIGOS em Markdown, pronto para arquivamento.
+    const promptSemPadrao = `Você é um analista de requisitos. Gere um REGISTRO DA REUNIÃO TRÊS AMIGOS em Markdown, pronto para arquivamento.
 
 O documento deve ser uma ata que descreva o que foi discutido na reunião, as decisões tomadas e o planejamento acordado (prazos, próximos passos, responsáveis), com base nas notas abaixo. Não limite o texto a apenas \"aprovado/não aprovado\": desenvolva o contexto das decisões e do alinhamento da equipe.
 
@@ -57,6 +62,16 @@ O documento deve incluir, de forma clara:
 6. Se alguma decisão não estiver explícita nas notas, sinalize como pendência ou \"a definir\" em vez de inventar fatos
 
 Responda APENAS com o documento em Markdown, sem texto introdutório antes ou depois.`;
+
+    const prompt = montarPromptGeracao({
+      padrao,
+      papel: "um analista de requisitos",
+      tarefaComPadrao:
+        "Produza um único registro da reunião Três Amigos em Markdown aplicando exclusivamente o padrão acima.",
+      promptSemPadrao,
+      conteudoEntrada,
+      labelConteudo: "DADOS DA REUNIÃO",
+    });
 
     const documento = await gerarComIA(prompt);
 

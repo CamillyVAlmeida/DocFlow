@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { gerarComIA } from "@/lib/gemini";
+import { gerarComIA } from "@/lib/gerar-ia";
+import { montarPromptGeracao } from "@/lib/prompt-padrao-usuario";
 
 export async function POST(request: NextRequest) {
   try {
@@ -12,12 +13,8 @@ export async function POST(request: NextRequest) {
     }
 
     const dataGeracao = new Date().toLocaleDateString("pt-BR");
-    const instrucaoPadrao =
-      padrao && typeof padrao === "string" && padrao.trim()
-        ? `\nPADRÃO DEFINIDO PELO USUÁRIO (siga rigorosamente ao escrever o documento):\n${padrao.trim()}\n\n`
-        : "";
 
-    const prompt = `${instrucaoPadrao}Você é um especialista em análise de causa raiz de bugs. Com base no contexto abaixo, gere uma ANÁLISE DE CAUSA RAIZ completa em Markdown.
+    const promptSemPadrao = `Você é um especialista em análise de causa raiz de bugs. Com base no contexto abaixo, gere uma ANÁLISE DE CAUSA RAIZ completa em Markdown.
 
 Inclua:
 1. Título e data (use: ${dataGeracao})
@@ -34,6 +31,16 @@ CONTEXTO DO BUG:
 ---
 ${contexto}
 ---`;
+
+    const prompt = montarPromptGeracao({
+      padrao,
+      papel: "um especialista em análise de causa raiz de bugs",
+      tarefaComPadrao:
+        "Produza uma única análise de causa raiz em Markdown aplicando exclusivamente o padrão acima.",
+      promptSemPadrao,
+      conteudoEntrada: contexto,
+      labelConteudo: "CONTEXTO DO BUG",
+    });
 
     const documento = await gerarComIA(prompt);
     return NextResponse.json({ documento });

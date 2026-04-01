@@ -15,21 +15,29 @@ Sistema web de geração de documentação para QA, Suporte e Requisitos.
 - TypeScript
 - Tailwind CSS
 - **Modo escuro:** alternância na barra de navegação (preferência salva no navegador)
-- **IA:** Google Gemini – análise de contexto e geração de documentos em todos os módulos
+- **IA:** [OpenRouter](https://openrouter.ai/) (prioritário) ou Google Gemini – geração de documentos em todos os módulos
 - **Testes unitários:** Jest + React Testing Library
 - **Testes E2E:** Playwright (fluxos principais de QA, Suporte e Requisitos)
 
 ## Integração com IA
 
-Todas as funções de geração de documentação (plano de testes, relato de bug, relato de bug a partir do cliente, novas funcionalidades e documentação de requisitos) usam a **API Google Gemini** para analisar o contexto informado e gerar o documento em Markdown.
+As rotas de geração enviam o contexto como prompt e recebem o documento em Markdown.
 
-**Configuração:** a chave da API deve estar em `.env.local`:
+**Prioridade:** se **`OPENROUTER_API_KEY`** estiver definida (não vazia), usa [OpenRouter](https://openrouter.ai/) com modelo padrão **`nvidia/nemotron-3-super-120b-a12b:free`** (sobrescreva com `OPENROUTER_MODEL` se quiser). Caso contrário, se **`GOOGLE_AI_API_KEY`** estiver definida, usa **Google Gemini** (`gemini-2.5-flash`).
+
+**Configuração** (`.env.local` na raiz):
 
 ```
-GOOGLE_AI_API_KEY=sua_chave_aqui
+# Uma das duas (OpenRouter tem prioridade se preenchida)
+OPENROUTER_API_KEY=sua_chave_openrouter
+GOOGLE_AI_API_KEY=sua_chave_google
 ```
 
-O arquivo `.env.local` não é commitado (está no `.gitignore`). Para produção, defina a variável `GOOGLE_AI_API_KEY` no ambiente do seu provedor de hospedagem.
+Opcionais OpenRouter: `OPENROUTER_MODEL`, `OPENROUTER_SITE_URL=https://seu-site.com`.
+
+Para usar **apenas Gemini**, deixe `OPENROUTER_API_KEY` ausente ou comente a linha (uma linha `OPENROUTER_API_KEY=` vazia é ignorada e o Gemini é usado).
+
+O arquivo `.env.local` não é commitado. Em produção, defina pelo menos uma das chaves no painel do provedor.
 
 ## Padrões da IA por módulo
 
@@ -41,13 +49,13 @@ Na interface existe um modal de **Configuração de IA** (botão no header) que 
 - Requisitos — Documentação
 - Requisitos — Reunião Três Amigos
 
-Esses textos são salvos no `localStorage` e enviados para as rotas de geração como campo `padrao`, sendo injetados no prompt do Gemini.
+Esses textos são salvos no `localStorage` e enviados como campo `padrao`. **Se você preencher um padrão**, o documento segue **somente** esse padrão (estrutura e estilo); o modelo de seções padrão do DocFlow não é misturado. Se o campo ficar vazio, a geração usa o modelo interno daquele fluxo (listas de seções sugeridas).
 
 ## Como rodar
 
 ```bash
 npm install
-cp .env.example .env.local   # depois edite e coloque sua chave Gemini
+cp .env.example .env.local   # depois edite e preencha OPENROUTER_API_KEY e/ou GOOGLE_AI_API_KEY
 npm run dev
 ```
 

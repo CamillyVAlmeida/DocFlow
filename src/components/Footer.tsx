@@ -17,7 +17,7 @@ export function Footer() {
             </Link>
             <p className="mt-1 max-w-md text-sm text-slate-600 dark:text-slate-400">
               Sistema de geração de documentação para QA, Suporte e Requisitos.
-              Desenvolvido com Next.js e Google Gemini.
+              Desenvolvido com Next.js e integração com IA.
             </p>
           </div>
 

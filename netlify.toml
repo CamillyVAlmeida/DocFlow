@@ -1,5 +1,5 @@
 # Next.js no Netlify usa o adaptador OpenNext automaticamente.
-# Variável obrigatória para as rotas /api: GOOGLE_AI_API_KEY (Site → Environment variables)
+# Rotas /api de geração: OPENROUTER_API_KEY e/ou GOOGLE_AI_API_KEY (Site → Environment variables)
 
 [build]
   command = "npm run build"

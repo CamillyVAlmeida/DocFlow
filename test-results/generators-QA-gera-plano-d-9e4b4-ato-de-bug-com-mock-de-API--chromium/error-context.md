@@ -34,7 +34,7 @@
       - generic [ref=e30]:
         - link "DocFlow" [ref=e31] [cursor=pointer]:
           - /url: /
-        - paragraph [ref=e32]: Sistema de geração de documentação para QA, Suporte e Requisitos. Desenvolvido com Next.js e Google Gemini.
+        - paragraph [ref=e32]: Sistema de geração de documentação para QA, Suporte e Requisitos. Desenvolvido com Next.js e OpenRouter.
       - generic [ref=e33]:
         - paragraph [ref=e34]: "Projeto acadêmico desenvolvido por:"
         - paragraph [ref=e35]:
