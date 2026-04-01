@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useState, useEffect } from "react";
+import { mensagemErroDeCorpoJson } from "@/lib/mensagem-erro-api-cliente";
 import { ToastDocumento, type ToastDocumentoVariante } from "./ToastDocumento";
 
 type GeradorDocumentoProps = {
@@ -52,26 +53,35 @@ export function GeradorDocumento({
           padrao: padrao?.trim() || undefined,
         }),
       });
-      const data = (await res.json()) as {
-        documento?: unknown;
-        erro?: unknown;
-        error?: unknown;
-      };
+      const raw = await res.text();
+      let data: unknown;
+      try {
+        data = raw ? JSON.parse(raw) : {};
+      } catch {
+        const trecho = raw.replace(/\s+/g, " ").trim().slice(0, 320);
+        setDetalheErroApi(
+          trecho
+            ? `Resposta não é JSON (HTTP ${res.status}): ${trecho}`
+            : `Resposta vazia (HTTP ${res.status}). Verifique deploy e variáveis de ambiente no Netlify.`
+        );
+        setToastGeracao("api");
+        return;
+      }
       if (!res.ok) {
         const msg =
-          typeof data.erro === "string"
-            ? data.erro
-            : typeof data.error === "string"
-              ? data.error
-              : null;
+          mensagemErroDeCorpoJson(data) ??
+          `Erro HTTP ${res.status}. A API não retornou mensagem em texto.`;
         setDetalheErroApi(msg);
         setToastGeracao("api");
         return;
       }
-      setDocumento(typeof data.documento === "string" ? data.documento : "");
+      const ok = data as { documento?: unknown };
+      setDocumento(typeof ok.documento === "string" ? ok.documento : "");
       setToastGeracao("sucesso");
-    } catch {
-      setDetalheErroApi(null);
+    } catch (err) {
+      setDetalheErroApi(
+        err instanceof Error ? err.message : "Falha de rede ao chamar a API."
+      );
       setToastGeracao("api");
     } finally {
       setCarregando(false);

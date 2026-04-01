@@ -52,6 +52,8 @@ As chaves ficam **só no seu computador** dentro de `.env.local`. Esse arquivo *
 
 Sem isso, as rotas `/api/gerar/*` rodam sem chave e retornam erro.
 
+**Ainda falha após configurar?** Faça um deploy limpo (**Clear cache and deploy**). Confira se a variável vale para **Production** (não só Preview). Se usar OpenRouter, cadastre também **`OPENROUTER_SITE_URL`** com a URL do seu site (ex.: `https://seu-app.netlify.app`) — alguns provedores exigem isso. O toast de erro na interface passa a mostrar a **mensagem retornada pela API** (ou um trecho da resposta HTML) para facilitar o diagnóstico.
+
 ## Padrões da IA por módulo
 
 Na interface existe um modal de **Configuração de IA** (botão no header) que permite definir prompts fixos para cada fluxo:

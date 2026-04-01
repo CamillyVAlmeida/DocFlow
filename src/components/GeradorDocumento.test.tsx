@@ -33,7 +33,7 @@ describe("GeradorDocumento", () => {
     const qaData = createRandomQA();
     const fetchMock = jest.fn().mockResolvedValue({
       ok: true,
-      json: async () => ({ documento: "DOC_OK" }),
+      text: async () => JSON.stringify({ documento: "DOC_OK" }),
     });
     global.fetch = fetchMock as typeof fetch;
 
@@ -70,7 +70,7 @@ describe("GeradorDocumento", () => {
     const user = userEvent.setup();
     const fetchMock = jest.fn().mockResolvedValue({
       ok: false,
-      json: async () => ({ erro: "Falhou" }),
+      text: async () => JSON.stringify({ erro: "Falhou" }),
     });
     global.fetch = fetchMock as typeof fetch;
 
@@ -94,7 +94,7 @@ describe("GeradorDocumento", () => {
     const writeSpy = jest.spyOn(navigator.clipboard, "writeText");
     const fetchMock = jest.fn().mockResolvedValue({
       ok: true,
-      json: async () => ({ documento: "DOC_COPY" }),
+      text: async () => JSON.stringify({ documento: "DOC_COPY" }),
     });
     global.fetch = fetchMock as typeof fetch;
 
