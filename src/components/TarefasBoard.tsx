@@ -33,8 +33,6 @@ type Task = {
   createdById: string;
 };
 
-type UserOption = { id: string; email: string; name: string };
-
 const COLUNAS: { status: TaskStatus; titulo: string }[] = [
   { status: "a_fazer", titulo: "A fazer" },
   { status: "em_andamento", titulo: "Em andamento" },
@@ -67,7 +65,6 @@ async function fetchJson<T>(url: string, init?: RequestInit): Promise<T> {
 export function TarefasBoard() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [tasks, setTasks] = useState<Task[]>([]);
-  const [users, setUsers] = useState<UserOption[]>([]);
   const [filtroProjeto, setFiltroProjeto] = useState<string>("all");
   const [loading, setLoading] = useState(true);
   const [erro, setErro] = useState<string | null>(null);
@@ -81,7 +78,6 @@ export function TarefasBoard() {
   const [formProjetoId, setFormProjetoId] = useState("");
   const [formTitulo, setFormTitulo] = useState("");
   const [formDesc, setFormDesc] = useState("");
-  const [formAssignee, setFormAssignee] = useState("");
   const [formPriority, setFormPriority] = useState<TaskPriority>("media");
   const [formTipo, setFormTipo] = useState<TaskTipo>(DEFAULT_TASK_TIPO);
   const [formDue, setFormDue] = useState("");
@@ -90,14 +86,12 @@ export function TarefasBoard() {
   const carregar = useCallback(async () => {
     setErro(null);
     try {
-      const [pRes, tRes, uRes] = await Promise.all([
+      const [pRes, tRes] = await Promise.all([
         fetchJson<{ projects: Project[] }>("/api/projetos"),
         fetchJson<{ tasks: Task[] }>("/api/tarefas"),
-        fetchJson<{ users: UserOption[] }>("/api/users"),
       ]);
       setProjects(pRes.projects);
       setTasks(tRes.tasks);
-      setUsers(uRes.users);
     } catch (e) {
       setErro(e instanceof Error ? e.message : "Erro ao carregar dados");
     } finally {
@@ -108,14 +102,6 @@ export function TarefasBoard() {
   useEffect(() => {
     void carregar();
   }, [carregar]);
-
-  const nomeUsuario = useCallback(
-    (id: string | null) => {
-      if (!id) return "—";
-      return users.find((u) => u.id === id)?.name ?? id;
-    },
-    [users]
-  );
 
   const projetoTitulo = useCallback(
     (id: string) => projects.find((p) => p.id === id)?.title ?? id,
@@ -215,7 +201,6 @@ export function TarefasBoard() {
     setFormProjetoId(projects[0]?.id ?? "");
     setFormTitulo("");
     setFormDesc("");
-    setFormAssignee("");
     setFormPriority("media");
     setFormTipo(DEFAULT_TASK_TIPO);
     setFormDue("");
@@ -227,7 +212,6 @@ export function TarefasBoard() {
     setFormProjetoId(t.projectId);
     setFormTitulo(t.title);
     setFormDesc(t.description);
-    setFormAssignee(t.assigneeId ?? "");
     setFormPriority(t.priority);
     setFormTipo(t.tipo ?? DEFAULT_TASK_TIPO);
     setFormDue(t.dueDate ? t.dueDate.slice(0, 10) : "");
@@ -245,7 +229,6 @@ export function TarefasBoard() {
         title: formTitulo.trim(),
         description: formDesc.trim(),
         tipo: formTipo,
-        assigneeId: formAssignee || null,
         priority: formPriority,
         dueDate: formDue || null,
       };
@@ -461,12 +444,11 @@ export function TarefasBoard() {
                   {t.description ? (
                     <p className="mb-2 line-clamp-2 text-sm text-slate-600 dark:text-slate-300">{t.description}</p>
                   ) : null}
-                  <div className="mb-2 text-xs text-slate-500 dark:text-slate-400">
-                    <span>Responsável: {nomeUsuario(t.assigneeId)}</span>
-                    {t.dueDate ? (
-                      <span className="ml-2">· Prazo: {new Date(t.dueDate + "T12:00:00").toLocaleDateString("pt-BR")}</span>
-                    ) : null}
-                  </div>
+                  {t.dueDate ? (
+                    <div className="mb-2 text-xs text-slate-500 dark:text-slate-400">
+                      Prazo: {new Date(t.dueDate + "T12:00:00").toLocaleDateString("pt-BR")}
+                    </div>
+                  ) : null}
                   <div className="flex flex-wrap gap-2">
                     <button type="button" className="text-xs text-primary-600 hover:underline dark:text-primary-400" onClick={() => abrirEdicao(t)}>
                       Editar
@@ -591,24 +573,6 @@ export function TarefasBoard() {
                   Descrição
                 </label>
                 <textarea id="ft-desc" className="input-field min-h-[80px]" value={formDesc} onChange={(e) => setFormDesc(e.target.value)} />
-              </div>
-              <div>
-                <label htmlFor="ft-assignee" className="label">
-                  Responsável
-                </label>
-                <select
-                  id="ft-assignee"
-                  className="input-field"
-                  value={formAssignee}
-                  onChange={(e) => setFormAssignee(e.target.value)}
-                >
-                  <option value="">Ninguém</option>
-                  {users.map((u) => (
-                    <option key={u.id} value={u.id}>
-                      {u.name} ({u.email})
-                    </option>
-                  ))}
-                </select>
               </div>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
