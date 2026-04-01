@@ -54,7 +54,7 @@ Documento para orientar **protótipos de alta fidelidade**, **fluxos** e **desig
 ### 2.3 Footer
 
 - Borda superior, fundo branco (dark: `slate-800/50`).
-- Duas colunas em desktop: **esquerda** — link DocFlow + texto curto (“Sistema de geração… Next.js e Google Gemini”); **direita** — bloco “Projeto acadêmico…”, nome com link LinkedIn, PUC Goiás, copyright com ano dinâmico.
+- Duas colunas em desktop: **esquerda** — link DocFlow + texto curto (“Sistema de geração… Next.js e integração com IA”); **direita** — bloco “Projeto acadêmico…”, nome com link LinkedIn, PUC Goiás, copyright com ano dinâmico.
 - Útil no Figma como componente fixo no rodapé das telas completas.
 
 ---

@@ -104,7 +104,7 @@ npm run test:e2e:ui  # abre a UI do Playwright
   - **QA**:
     - Geração de Plano de Testes.
     - Geração de Relato de Bug.
-    - As rotas `/api/gerar/plano-testes` e `/api/gerar/relato-bug` são **interceptadas e mockadas** para não depender do Gemini.
+    - As rotas `/api/gerar/plano-testes` e `/api/gerar/relato-bug` são **interceptadas e mockadas** para não depender da API de IA.
   - **Requisitos**:
     - Geração de documentação de requisitos via `/api/gerar/documentacao-requisitos` (mock).
     - Registro da Reunião Três Amigos via `/api/tres-amigos` (mock), verificando a mensagem de sucesso.
