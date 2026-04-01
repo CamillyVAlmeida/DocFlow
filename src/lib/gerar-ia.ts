@@ -12,6 +12,6 @@ export async function gerarComIA(prompt: string): Promise<string> {
     return gerarComGemini(prompt);
   }
   throw new Error(
-    "Nenhuma chave de IA configurada. Defina OPENROUTER_API_KEY ou GOOGLE_AI_API_KEY em .env.local e reinicie o servidor (npm run dev)."
+    "Nenhuma chave de IA no servidor. Local: defina OPENROUTER_API_KEY e/ou GOOGLE_AI_API_KEY em .env.local e reinicie (npm run dev). Produção: o .env.local não vai para o deploy — cadastre as mesmas variáveis no painel do provedor (Site settings → Environment variables) e faça um novo deploy."
   );
 }

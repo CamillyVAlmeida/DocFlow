@@ -37,7 +37,20 @@ Opcionais OpenRouter: `OPENROUTER_MODEL`, `OPENROUTER_SITE_URL=https://seu-site.
 
 Para usar **apenas Gemini**, deixe `OPENROUTER_API_KEY` ausente ou comente a linha (uma linha `OPENROUTER_API_KEY=` vazia é ignorada e o Gemini é usado).
 
-O arquivo `.env.local` não é commitado. Em produção, defina pelo menos uma das chaves no painel do provedor.
+O arquivo `.env.local` não é commitado.
+
+### Por que funciona no PC e não no site publicado?
+
+As chaves ficam **só no seu computador** dentro de `.env.local`. Esse arquivo **não sobe** para o GitHub/GitLab (está no `.gitignore`), então o **servidor de hospedagem não recebe** essas variáveis automaticamente. No ambiente local o Next.js lê `.env.local`; na nuvem você precisa **cadastrar manualmente** as mesmas variáveis.
+
+**O que fazer no provedor** (ex.: Netlify, Vercel, Railway):
+
+1. Abra o projeto → **Site settings** / **Settings** → **Environment variables**.
+2. Adicione **`OPENROUTER_API_KEY`** e/ou **`GOOGLE_AI_API_KEY`** com os mesmos valores que você usa no `.env.local`.
+3. Marque os ambientes desejados (Production, Preview).
+4. **Salve** e dispare um **novo deploy** (rebuild), para as funções serverless carregarem as chaves.
+
+Sem isso, as rotas `/api/gerar/*` rodam sem chave e retornam erro.
 
 ## Padrões da IA por módulo
 
