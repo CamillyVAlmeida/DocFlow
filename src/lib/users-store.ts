@@ -1,6 +1,7 @@
 import { promises as fs } from "fs";
 import path from "path";
 import bcrypt from "bcryptjs";
+import { dataFilePath } from "./data-dir";
 
 export type UserRecord = {
   id: string;
@@ -15,12 +16,11 @@ type UsersFile = { users: UserRecord[] };
 const SALT_ROUNDS = 10;
 
 function dataPath(): string {
-  return path.join(process.cwd(), "data", "users.json");
+  return dataFilePath("users.json");
 }
 
 async function ensureDataDir(): Promise<void> {
-  const dir = path.join(process.cwd(), "data");
-  await fs.mkdir(dir, { recursive: true });
+  await fs.mkdir(path.dirname(dataPath()), { recursive: true });
 }
 
 async function readFile(): Promise<UsersFile> {

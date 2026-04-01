@@ -1,5 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
+import { dataFilePath } from "./data-dir";
 import { deleteTasksByProjectId } from "./tasks-store";
 
 export type ProjectRecord = {
@@ -12,12 +13,11 @@ export type ProjectRecord = {
 type ProjectsFile = { projects: ProjectRecord[] };
 
 function dataPath(): string {
-  return path.join(process.cwd(), "data", "projects.json");
+  return dataFilePath("projects.json");
 }
 
 async function ensureDataDir(): Promise<void> {
-  const dir = path.join(process.cwd(), "data");
-  await fs.mkdir(dir, { recursive: true });
+  await fs.mkdir(path.dirname(dataPath()), { recursive: true });
 }
 
 async function readFile(): Promise<ProjectsFile> {

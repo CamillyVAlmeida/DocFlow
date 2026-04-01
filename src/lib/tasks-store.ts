@@ -1,5 +1,6 @@
 import { promises as fs } from "fs";
 import path from "path";
+import { dataFilePath } from "./data-dir";
 import {
   DEFAULT_TASK_TIPO,
   type TaskTipo,
@@ -30,12 +31,11 @@ export type TaskRecord = {
 type TasksFile = { tasks: TaskRecord[] };
 
 function dataPath(): string {
-  return path.join(process.cwd(), "data", "tasks.json");
+  return dataFilePath("tasks.json");
 }
 
 async function ensureDataDir(): Promise<void> {
-  const dir = path.join(process.cwd(), "data");
-  await fs.mkdir(dir, { recursive: true });
+  await fs.mkdir(path.dirname(dataPath()), { recursive: true });
 }
 
 function normalizeTaskTipo(t: TaskRecord | (Omit<TaskRecord, "tipo"> & { tipo?: TaskTipo })): TaskRecord {
