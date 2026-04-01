@@ -1,0 +1,74 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e1]:
+  - banner [ref=e2]:
+    - navigation [ref=e3]:
+      - link "DocFlow" [ref=e4] [cursor=pointer]:
+        - /url: /
+      - list [ref=e5]
+      - button "Ativar modo escuro" [ref=e7] [cursor=pointer]:
+        - img [ref=e8]
+  - main [ref=e10]:
+    - generic [ref=e11]:
+      - generic [ref=e12]:
+        - heading "Módulo Requisitos" [level=1] [ref=e13]
+        - paragraph [ref=e14]: Gere documentação de requisitos (com Cliente e Analista) e produza a ata da reunião Três Amigos (Líder, Dev, QA) com base nas notas e no padrão de requisitos.
+      - generic [ref=e15]:
+        - heading "1. Gerar documentação de requisitos" [level=2] [ref=e16]
+        - generic [ref=e17]:
+          - generic [ref=e18]:
+            - generic [ref=e19]: Cliente *
+            - textbox "Cliente *" [ref=e20]:
+              - /placeholder: Nome do cliente
+              - text: Cliente Diego Almeida
+          - generic [ref=e21]:
+            - generic [ref=e22]: Analista de Requisitos *
+            - textbox "Analista de Requisitos *" [ref=e23]:
+              - /placeholder: Nome do analista
+              - text: Bruno Almeida
+          - generic [ref=e24]:
+            - generic [ref=e25]: Requisitos coletados *
+            - textbox "Requisitos coletados *" [ref=e26]:
+              - /placeholder: Descreva os requisitos, módulos, melhorias e alterações...
+              - text: "- Cadastro de usuários - Tela de login - Relatório de vendas diário"
+          - button "Gerar documentação" [active] [ref=e27] [cursor=pointer]
+      - generic [ref=e28]:
+        - heading "2. Reunião Três Amigos – Gerar ata" [level=2] [ref=e29]
+        - paragraph [ref=e30]: "Informe participantes, data e notas sobre decisões e planejamento da reunião. O sistema gera um texto em Markdown seguindo o padrão de requisitos (menu \"Padrão Requisitos\": usa o padrão da reunião Três Amigos; se estiver vazio, o padrão da documentação de requisitos)."
+        - generic [ref=e31]:
+          - generic [ref=e32]:
+            - generic [ref=e33]:
+              - generic [ref=e34]: Líder *
+              - textbox "Líder *" [ref=e35]:
+                - /placeholder: Nome do líder
+            - generic [ref=e36]:
+              - generic [ref=e37]: Desenvolvedor *
+              - textbox "Desenvolvedor *" [ref=e38]:
+                - /placeholder: Nome do dev
+            - generic [ref=e39]:
+              - generic [ref=e40]: QA *
+              - textbox "QA *" [ref=e41]:
+                - /placeholder: Nome do QA
+          - generic [ref=e42]:
+            - generic [ref=e43]: Data da reunião *
+            - textbox "Data da reunião *" [ref=e44]
+          - generic [ref=e45]:
+            - generic [ref=e46]: Notas da reunião *
+            - textbox "Notas da reunião *" [ref=e47]:
+              - /placeholder: Decisões tomadas, planejamento, pontos discutidos, pendências, alinhamentos...
+          - button "Gerar ata da reunião" [ref=e48] [cursor=pointer]
+  - contentinfo [ref=e49]:
+    - generic [ref=e51]:
+      - generic [ref=e52]:
+        - link "DocFlow" [ref=e53] [cursor=pointer]:
+          - /url: /
+        - paragraph [ref=e54]: Sistema de geração de documentação para QA, Suporte e Requisitos. Desenvolvido com Next.js e Google Gemini.
+      - generic [ref=e55]:
+        - paragraph [ref=e56]: "Projeto acadêmico desenvolvido por:"
+        - paragraph [ref=e57]:
+          - link "Camilly Vitória dos Santos Almeida" [ref=e58] [cursor=pointer]:
+            - /url: https://www.linkedin.com/in/camilly-vit%C3%B3ria-almeida-884431265/
+        - paragraph [ref=e59]: Pontifícia Universidade Católica de Goiás — PUC Goiás
+        - paragraph [ref=e60]: © 2026 DocFlow. Todos os direitos reservados.
+```

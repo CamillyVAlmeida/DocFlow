@@ -20,20 +20,25 @@ test("modal de Configuração de IA abre e salva padrões", async ({ page }) => 
   await page.goto("/");
 
   await page.getByRole("button", { name: "Padrão QA" }).click();
-  await expect(page.getByRole("heading", { name: /Configurar padrão da IA/i })).toBeVisible();
-
+  await expect(page.getByRole("heading", { name: /Configurar padrão QA/i })).toBeVisible();
   await page.getByLabel(/Padrão QA — Plano de Testes/i).fill("PAD_QA_PLANO");
   await page.getByLabel(/Padrão QA — Relato de Bug/i).fill("PAD_QA_BUG");
+  await page.getByRole("button", { name: "Salvar" }).click();
+  await expect(page.getByRole("heading", { name: /Configurar padrão QA/i })).toHaveCount(0);
+
+  await page.getByRole("button", { name: "Padrão Suporte" }).click();
+  await expect(page.getByRole("heading", { name: /Configurar padrão Suporte/i })).toBeVisible();
   await page.getByLabel(/Padrão para módulo Suporte/i).fill("PAD_SUPORTE");
+  await page.getByRole("button", { name: "Salvar" }).click();
+  await expect(page.getByRole("heading", { name: /Configurar padrão Suporte/i })).toHaveCount(0);
+
+  await page.getByRole("button", { name: "Padrão Requisitos" }).click();
+  await expect(page.getByRole("heading", { name: /Configurar padrão Requisitos/i })).toBeVisible();
   await page.getByLabel(/Padrão Requisitos — Documentação/i).fill("PAD_REQ_DOC");
   await page.getByLabel(/Padrão Requisitos — Reunião Três Amigos/i).fill("PAD_REQ_3");
-
   await page.getByRole("button", { name: "Salvar" }).click();
+  await expect(page.getByRole("heading", { name: /Configurar padrão Requisitos/i })).toHaveCount(0);
 
-  // Modal fecha
-  await expect(page.getByRole("heading", { name: /Configurar padrão da IA/i })).toHaveCount(0);
-
-  // Confere persistência no navegador
   const stored = await page.evaluate(() => ({
     qaPlano: localStorage.getItem("docflow_padrao_qa_plano_testes"),
     qaBug: localStorage.getItem("docflow_padrao_qa_relato_bug"),
