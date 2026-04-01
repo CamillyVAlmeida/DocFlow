@@ -17,7 +17,7 @@ function getGenAI() {
 export async function gerarComIA(prompt: string): Promise<string> {
   const genAI = getGenAI();
   // Modelos disponíveis: gemini-2.5-flash (estável), gemini-3-flash-preview, gemini-2.0-flash
-const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
+  const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
   const result = await model.generateContent(prompt);
   const response = result.response;
   const text = response.text();

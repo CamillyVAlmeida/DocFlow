@@ -26,6 +26,7 @@ export function GeradorDocumento({
   const [documento, setDocumento] = useState("");
   const [carregando, setCarregando] = useState(false);
   const [toastGeracao, setToastGeracao] = useState<ToastDocumentoVariante>(null);
+  const [detalheErroApi, setDetalheErroApi] = useState<string | null>(null);
   const [mostrarCopiado, setMostrarCopiado] = useState(false);
 
   useEffect(() => {
@@ -36,10 +37,12 @@ export function GeradorDocumento({
 
   async function handleGerar() {
     if (!contexto.trim()) {
+      setDetalheErroApi(null);
       setToastGeracao("validacao");
       return;
     }
     setCarregando(true);
+    setDetalheErroApi(null);
     try {
       const res = await fetch(endpoint, {
         method: "POST",
@@ -49,14 +52,26 @@ export function GeradorDocumento({
           padrao: padrao?.trim() || undefined,
         }),
       });
-      const data = await res.json();
+      const data = (await res.json()) as {
+        documento?: unknown;
+        erro?: unknown;
+        error?: unknown;
+      };
       if (!res.ok) {
+        const msg =
+          typeof data.erro === "string"
+            ? data.erro
+            : typeof data.error === "string"
+              ? data.error
+              : null;
+        setDetalheErroApi(msg);
         setToastGeracao("api");
         return;
       }
-      setDocumento(data.documento);
+      setDocumento(typeof data.documento === "string" ? data.documento : "");
       setToastGeracao("sucesso");
     } catch {
+      setDetalheErroApi(null);
       setToastGeracao("api");
     } finally {
       setCarregando(false);
@@ -110,6 +125,7 @@ export function GeradorDocumento({
       )}
       <ToastDocumento
         variante={toastGeracao}
+        mensagemDetalhe={detalheErroApi}
         onFechar={() => setToastGeracao(null)}
       />
       {mostrarCopiado && (

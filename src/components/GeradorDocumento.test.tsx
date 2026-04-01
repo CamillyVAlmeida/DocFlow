@@ -2,11 +2,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import React from "react";
 import { GeradorDocumento } from "./GeradorDocumento";
-import {
-  MSG_DOCUMENTO_ERRO_API,
-  MSG_DOCUMENTO_SUCESSO,
-  MSG_DOCUMENTO_VALIDACAO,
-} from "./ToastDocumento";
+import { MSG_DOCUMENTO_SUCESSO, MSG_DOCUMENTO_VALIDACAO } from "./ToastDocumento";
 import { createRandomQA } from "@/test-utils/randomData";
 
 describe("GeradorDocumento", () => {
@@ -90,9 +86,7 @@ describe("GeradorDocumento", () => {
     await user.type(screen.getByLabelText(/^Contexto/), "CONTEXTO");
     await user.click(screen.getByRole("button", { name: "Gerar" }));
 
-    expect(await screen.findByTestId("toast-documento")).toHaveTextContent(
-      MSG_DOCUMENTO_ERRO_API
-    );
+    expect(await screen.findByTestId("toast-documento")).toHaveTextContent("Falhou");
   });
 
   it("copia o documento para a área de transferência", async () => {
