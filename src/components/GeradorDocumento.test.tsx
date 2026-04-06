@@ -89,6 +89,34 @@ describe("GeradorDocumento", () => {
     expect(await screen.findByTestId("toast-documento")).toHaveTextContent("Falhou");
   });
 
+  it("limpa contexto e documento gerado ao clicar em Limpar texto", async () => {
+    const user = userEvent.setup();
+    const fetchMock = jest.fn().mockResolvedValue({
+      ok: true,
+      text: async () => JSON.stringify({ documento: "DOC_CLEAR" }),
+    });
+    global.fetch = fetchMock as typeof fetch;
+
+    render(
+      <GeradorDocumento
+        titulo="Teste"
+        placeholder="x"
+        endpoint="/api/gerar"
+        labelBotao="Gerar"
+      />
+    );
+
+    const contexto = screen.getByLabelText(/^Contexto/);
+    await user.type(contexto, "TEXTO");
+    await user.click(screen.getByRole("button", { name: "Gerar" }));
+    await screen.findByText("DOC_CLEAR");
+
+    await user.click(screen.getByRole("button", { name: "Limpar texto" }));
+
+    expect(contexto).toHaveValue("");
+    expect(screen.queryByText("DOC_CLEAR")).not.toBeInTheDocument();
+  });
+
   it("copia o documento para a área de transferência", async () => {
     const user = userEvent.setup();
     const writeSpy = jest.spyOn(navigator.clipboard, "writeText");

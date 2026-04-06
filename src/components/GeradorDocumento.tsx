@@ -90,6 +90,13 @@ export function GeradorDocumento({
     }
   }
 
+  function handleLimparCampos() {
+    setContexto("");
+    setDocumento("");
+    setDetalheErroApi(null);
+    setToastGeracao(null);
+  }
+
   return (
     <div className="card">
       {mostrarTituloCard && (
@@ -107,14 +114,24 @@ export function GeradorDocumento({
         required
         aria-required={true}
       />
-      <button
-        type="button"
-        onClick={handleGerar}
-        disabled={carregando}
-        className="btn-primary mt-3 disabled:opacity-50"
-      >
-        {carregando ? "Gerando..." : labelBotao}
-      </button>
+      <div className="mt-3 flex flex-wrap gap-3">
+        <button
+          type="button"
+          onClick={handleGerar}
+          disabled={carregando}
+          className="btn-primary disabled:opacity-50"
+        >
+          {carregando ? "Gerando..." : labelBotao}
+        </button>
+        <button
+          type="button"
+          onClick={handleLimparCampos}
+          disabled={carregando}
+          className="btn-secondary disabled:opacity-50"
+        >
+          Limpar texto
+        </button>
+      </div>
       {documento && (
         <div className="mt-6 rounded-lg border border-slate-200 bg-slate-50 p-4 dark:border-slate-600 dark:bg-slate-700/50">
           <div className="mb-2 flex items-center justify-between">

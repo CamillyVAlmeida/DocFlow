@@ -112,6 +112,24 @@ export default function RequisitosPage() {
     }
   }
 
+  function handleLimparDocumentacao() {
+    setCliente("");
+    setAnalistaRequisitos("");
+    setRequisitos("");
+    setDocumento("");
+    setToastGeracao(null);
+  }
+
+  function handleLimparTresAmigos() {
+    setLider("");
+    setDesenvolvedor("");
+    setQa("");
+    setDataReuniao("");
+    setObservacoes("");
+    setDocumentoReuniao("");
+    setToastGeracao(null);
+  }
+
   return (
     <div className="mx-auto max-w-4xl px-4 py-8">
       <header className="mb-8">
@@ -165,14 +183,24 @@ export default function RequisitosPage() {
               aria-required={true}
             />
           </div>
-          <button
-            type="button"
-            onClick={handleGerarDocumentacao}
-            disabled={carregandoDoc}
-            className="btn-primary disabled:opacity-50"
-          >
-            {carregandoDoc ? "Gerando..." : "Gerar documentação"}
-          </button>
+          <div className="flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={handleGerarDocumentacao}
+              disabled={carregandoDoc}
+              className="btn-primary disabled:opacity-50"
+            >
+              {carregandoDoc ? "Gerando..." : "Gerar documentação"}
+            </button>
+            <button
+              type="button"
+              onClick={handleLimparDocumentacao}
+              disabled={carregandoDoc}
+              className="btn-secondary disabled:opacity-50"
+            >
+              Limpar texto
+            </button>
+          </div>
           {documento && (
             <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-4 dark:border-slate-600 dark:bg-slate-700/50">
               <div className="mb-2 flex items-center justify-between">
@@ -277,14 +305,24 @@ export default function RequisitosPage() {
               onChange={(e) => setObservacoes(e.target.value)}
             />
           </div>
-          <button
-            type="button"
-            onClick={handleRegistrarTresAmigos}
-            disabled={carregandoReuniao}
-            className="btn-primary disabled:opacity-50"
-          >
-            {carregandoReuniao ? "Gerando ata..." : "Gerar ata da reunião"}
-          </button>
+          <div className="flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={handleRegistrarTresAmigos}
+              disabled={carregandoReuniao}
+              className="btn-primary disabled:opacity-50"
+            >
+              {carregandoReuniao ? "Gerando ata..." : "Gerar ata da reunião"}
+            </button>
+            <button
+              type="button"
+              onClick={handleLimparTresAmigos}
+              disabled={carregandoReuniao}
+              className="btn-secondary disabled:opacity-50"
+            >
+              Limpar texto
+            </button>
+          </div>
           {documentoReuniao && (
             <div className="mt-4 rounded-lg border border-slate-200 bg-slate-50 p-4 dark:border-slate-600 dark:bg-slate-700/50">
               <div className="mb-2 flex items-center justify-between">
