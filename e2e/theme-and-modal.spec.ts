@@ -16,7 +16,7 @@ test("toggle de tema não quebra e persiste", async ({ page }) => {
   await expect(html).toHaveClass(/dark/);
 });
 
-test("modal de Configuração de IA abre e salva padrões", async ({ page }) => {
+test("modal de padrões de documento abre e salva valores", async ({ page }) => {
   await page.goto("/");
 
   await page.getByRole("button", { name: "Padrão QA" }).click();

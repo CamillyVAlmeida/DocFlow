@@ -1,5 +1,9 @@
-# Next.js no Netlify usa o adaptador OpenNext automaticamente.
-# Rotas /api de geração: OPENROUTER_API_KEY e/ou GOOGLE_AI_API_KEY (Site → Environment variables)
+# Next.js no Netlify (OpenNext / plugin oficial): o build gera as funções serverless das rotas /api.
+#
+# Se aparecer HTTP 502 ao gerar documentos:
+# - Veja Site → Functions (ou Deploy log): erro na função, cold start ou timeout.
+# - Confirme que o último deploy concluiu sem falha e que NODE_VERSION bate com o projeto.
+# Variáveis de app: veja .env.example (ex.: DOCFLOW_DATA_DIR em ambientes persistentes).
 
 [build]
   command = "npm run build"

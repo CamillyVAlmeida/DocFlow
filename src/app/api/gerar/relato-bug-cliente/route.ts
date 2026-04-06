@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { gerarComIA } from "@/lib/gerar-ia";
-import { montarPromptGeracao } from "@/lib/prompt-padrao-usuario";
+import { aplicarPadraoDocumento } from "@/lib/aplicar-padrao-documento";
+import { relatoBugClienteMarkdown } from "@/lib/geracao-documentos/templates";
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,37 +14,8 @@ export async function POST(request: NextRequest) {
 
     const contextoLimpo = contexto.trim();
     const dataGeracao = new Date().toLocaleDateString("pt-BR");
-
-    const promptSemPadrao = `Você é um especialista do time de suporte. Com base no relato do cliente abaixo, gere um RELATO DE BUG estruturado em Markdown para uso interno (time de suporte, desenvolvimento e QA).
-
-O objetivo é transformar a descrição do cliente em um documento claro e padronizado, com interpretação técnica quando necessário.
-
-Inclua:
-1. Título e data (use: ${dataGeracao})
-2. Resumo do problema (uma ou duas frases, em linguagem técnica quando possível)
-3. Relato do cliente (transcreva ou resuma fielmente o que foi informado)
-4. Interpretação / detalhes técnicos: o que o time de suporte entendeu, ambiente provável, passos para reproduzir inferidos, impacto sugerido
-5. Severidade sugerida (Crítico/Alto/Médio/Baixo) e categoria (funcional, desempenho, interface, etc.)
-6. Ações sugeridas para o time (ex.: validar com QA, solicitar logs, reproduzir em homologação)
-
-Responda APENAS com o documento em Markdown, sem texto introdutório antes ou depois.
-
-RELATO DO CLIENTE:
----
-${contextoLimpo}
----`;
-
-    const prompt = montarPromptGeracao({
-      padrao,
-      papel: "um especialista do time de suporte",
-      tarefaComPadrao:
-        "Produza um único relato de bug interno em Markdown aplicando exclusivamente o padrão acima.",
-      promptSemPadrao,
-      conteudoEntrada: contextoLimpo,
-      labelConteudo: "RELATO DO CLIENTE",
-    });
-
-    const documento = await gerarComIA(prompt);
+    const base = relatoBugClienteMarkdown(contextoLimpo, dataGeracao);
+    const documento = aplicarPadraoDocumento(padrao, contextoLimpo, base);
     return NextResponse.json({ documento });
   } catch (e) {
     const msg = e instanceof Error ? e.message : "Erro ao gerar relato de bug.";

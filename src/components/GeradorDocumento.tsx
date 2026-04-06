@@ -70,7 +70,9 @@ export function GeradorDocumento({
       if (!res.ok) {
         const msg =
           mensagemErroDeCorpoJson(data) ??
-          `Erro HTTP ${res.status}. A API não retornou mensagem em texto.`;
+          (res.status === 502 || res.status === 503
+            ? `Erro HTTP ${res.status} (gateway ou função serverless indisponível/timeout). No Netlify: Site → Functions e o log do deploy.`
+            : `Erro HTTP ${res.status}. A API não retornou mensagem em texto.`);
         setDetalheErroApi(msg);
         setToastGeracao("api");
         return;

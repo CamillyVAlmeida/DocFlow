@@ -108,8 +108,8 @@ function LandingVisitante() {
       <div className="card border-l-4 border-primary-500 p-6 sm:p-8">
         <h1 className="mb-4 text-3xl font-bold text-slate-800 dark:text-slate-100 sm:text-4xl">DocFlow</h1>
         <p className="mb-6 text-lg text-slate-600 dark:text-slate-300">
-          Sistema web para gerar documentação alinhada a QA, Suporte e Requisitos, com apoio de inteligência
-          artificial — para equipes que precisam padronizar comunicação técnica e registro de decisões.
+          Sistema web para gerar documentação alinhada a QA, Suporte e Requisitos — modelos em Markdown a
+          partir do que você informa, para padronizar comunicação técnica e registro de decisões.
         </p>
 
         <h2 className="mb-3 text-base font-semibold text-slate-800 dark:text-slate-100">O que você pode fazer após entrar</h2>

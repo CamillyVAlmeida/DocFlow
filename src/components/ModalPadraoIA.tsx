@@ -102,7 +102,7 @@ export function ModalPadraoIA() {
               : "Configurar padrão Requisitos"}
         </h2>
         <p className="mb-6 text-sm text-slate-600 dark:text-slate-400">
-          Defina o prompt ou as instruções que a IA deve seguir neste módulo.
+          Opcional: modelo em Markdown próprio. Use <code className="rounded bg-slate-100 px-1 dark:bg-slate-700">{"{{contexto}}"}</code> onde o texto do formulário deve aparecer. Se não houver placeholder, o contexto é anexado ao final do padrão.
         </p>
 
         <div className="space-y-5">
@@ -121,7 +121,7 @@ export function ModalPadraoIA() {
                 <textarea
                   id={idQAPlano}
                   className="input-field min-h-[100px] resize-y"
-                  placeholder="Defina aqui o padrão que a IA deve seguir para o plano de testes."
+                  placeholder="Opcional: modelo Markdown (use {{contexto}} para inserir o texto do campo Contexto)."
                   value={valorQAPlanoTestes}
                   onChange={(e) => setValorQAPlanoTestes(e.target.value)}
                 />
@@ -140,7 +140,7 @@ export function ModalPadraoIA() {
                 <textarea
                   id={idQABug}
                   className="input-field min-h-[100px] resize-y"
-                  placeholder="Defina aqui o padrão que a IA deve seguir para o relato de bug."
+                  placeholder="Opcional: modelo Markdown (use {{contexto}} para inserir o texto do campo Contexto)."
                   value={valorQARelatoBug}
                   onChange={(e) => setValorQARelatoBug(e.target.value)}
                 />
@@ -162,7 +162,7 @@ export function ModalPadraoIA() {
               <textarea
                 id={idSuporte}
                 className="input-field min-h-[100px] resize-y"
-                placeholder="Defina aqui o padrão que a IA deve seguir para o relato de bug do cliente."
+                placeholder="Opcional: modelo Markdown (use {{contexto}} para inserir o relato do cliente)."
                 value={valorSuporte}
                 onChange={(e) => setValorSuporte(e.target.value)}
               />
@@ -184,7 +184,7 @@ export function ModalPadraoIA() {
                 <textarea
                   id={idReqDoc}
                   className="input-field min-h-[100px] resize-y"
-                  placeholder="Defina aqui o padrão que a IA deve seguir na documentação de requisitos."
+                  placeholder="Opcional: modelo Markdown (use {{contexto}} para dados cliente/analista/requisitos)."
                   value={valorRequisitosDocumentacao}
                   onChange={(e) => setValorRequisitosDocumentacao(e.target.value)}
                 />

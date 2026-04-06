@@ -91,7 +91,7 @@ npm run test:e2e:ui  # abre a UI do Playwright
 
 - `e2e/theme-and-modal.spec.ts`
   - Alternância de tema (claro/escuro) e persistência via `localStorage`.
-  - Abertura do modal de **Configuração de IA**.
+  - Abertura do modal de **padrões de documento** (QA / Suporte / Requisitos).
   - Preenchimento e salvamento dos padrões:
     - QA — Plano de Testes
     - QA — Relato de Bug
@@ -104,7 +104,7 @@ npm run test:e2e:ui  # abre a UI do Playwright
   - **QA**:
     - Geração de Plano de Testes.
     - Geração de Relato de Bug.
-    - As rotas `/api/gerar/plano-testes` e `/api/gerar/relato-bug` são **interceptadas e mockadas** para não depender da API de IA.
+    - As rotas `/api/gerar/plano-testes` e `/api/gerar/relato-bug` são **interceptadas e mockadas** para testes determinísticos.
   - **Requisitos**:
     - Geração de documentação de requisitos via `/api/gerar/documentacao-requisitos` (mock).
     - Registro da Reunião Três Amigos via `/api/tres-amigos` (mock), verificando a mensagem de sucesso.
@@ -139,8 +139,8 @@ Essas funções são usadas em:
 ## 4. Boas práticas e próximos passos
 
 - Manter novos fluxos cobertos sempre que adicionar:
-  - Novos módulos ou tipos de documento com IA.
-  - Novas telas que mexam com o estado global (tema, padrões da IA).
+  - Novos módulos ou tipos de documento gerados.
+  - Novas telas que mexam com o estado global (tema, padrões de documento).
 - Para APIs adicionais:
   - Criar testes unitários focados na lógica de prompt e validação.
   - Adicionar cenários E2E com **interceptação das rotas** (como já feito em `e2e/generators.spec.ts`).
