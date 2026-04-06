@@ -5,7 +5,6 @@ import { Nav } from "@/components/Nav";
 import { Footer } from "@/components/Footer";
 import { PadraoIAProvider } from "@/context/PadraoIAContext";
 import { ThemeProvider } from "@/context/ThemeContext";
-import { ModalPadraoIA } from "@/components/ModalPadraoIA";
 import { AuthProvider } from "@/context/AuthContext";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -29,7 +28,6 @@ export default function RootLayout({
               <Nav />
               <main className="flex min-h-0 flex-1 flex-col bg-slate-50 pb-6 dark:bg-slate-900">{children}</main>
               <Footer />
-              <ModalPadraoIA />
             </AuthProvider>
           </PadraoIAProvider>
         </ThemeProvider>

@@ -16,8 +16,8 @@ export function Footer() {
               DocFlow
             </Link>
             <p className="mt-1 max-w-md text-sm text-slate-600 dark:text-slate-400">
-              Sistema de geração de documentação para QA, Suporte e Requisitos.
-              Desenvolvido com Next.js e integração com IA.
+              Sistema de geração de documentação para QA, Suporte e Requisitos e gestão de atividades.
+              Desenvolvido com Next.js.
             </p>
           </div>
 

@@ -2,10 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { usePadraoIA } from "@/context/PadraoIAContext";
 import { useTheme } from "@/context/ThemeContext";
 import { useAuth } from "@/context/AuthContext";
-import type { ModalSection } from "@/context/PadraoIAContext";
 
 function IconMoon() {
   return (
@@ -24,15 +22,8 @@ function IconSun() {
   );
 }
 
-const configLinks: { section: ModalSection; label: string }[] = [
-  { section: "qa", label: "Padrão QA" },
-  { section: "suporte", label: "Padrão Suporte" },
-  { section: "requisitos", label: "Padrão Requisitos" },
-];
-
 export function Nav() {
   const pathname = usePathname();
-  const { openModal } = usePadraoIA();
   const { theme, toggleTheme } = useTheme();
   const { user, loading, logout } = useAuth();
   const mostrarAtalhosApp = Boolean(!loading && user);
@@ -70,17 +61,18 @@ export function Nav() {
                   Tarefas
                 </Link>
               </li>
-              {configLinks.map(({ section, label }) => (
-                <li key={section}>
-                  <button
-                    type="button"
-                    onClick={() => openModal(section)}
-                    className="inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-100"
-                  >
-                    {label}
-                  </button>
-                </li>
-              ))}
+              <li>
+                <Link
+                  href="/personalizacao"
+                  className={`inline-flex items-center rounded-lg px-3 py-2 text-sm font-medium transition ${
+                    pathname === "/personalizacao"
+                      ? "bg-primary-100 text-primary-700 dark:bg-primary-900/50 dark:text-primary-300"
+                      : "text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-100"
+                  }`}
+                >
+                  Personalização
+                </Link>
+              </li>
             </>
           ) : null}
         </ul>

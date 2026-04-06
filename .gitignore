@@ -12,9 +12,6 @@ dist
 # Dados locais (usuários cadastrados)
 data/
 
-# Playwright estado de sessão E2E
-e2e/.auth/
-
 # Environment (nunca commitar chaves)
 .env
 .env.local

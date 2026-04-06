@@ -15,18 +15,17 @@ Sistema web de geração de documentação para QA, Suporte e Requisitos.
 - TypeScript
 - Tailwind CSS
 - **Modo escuro:** alternância na barra de navegação (preferência salva no navegador)
-- **Documentos:** modelos fixos em Markdown montados no servidor a partir do contexto que você informa (sem serviço de IA externo)
+- **Documentos:** modelos fixos em texto simples montados no servidor a partir do contexto que você informa
 - **Testes unitários:** Jest + React Testing Library
-- **Testes E2E:** Playwright (fluxos principais de QA, Suporte e Requisitos)
 
 ## Padrões por módulo
 
-Na interface existem atalhos **Padrão QA**, **Padrão Suporte** e **Padrão Requisitos** no header. Lá você pode opcionalmente colar um **modelo em Markdown** usado na geração:
+No menu (após entrar), acesse **Personalização** para definir, em uma única tela, os padrões de texto do **QA**, **Suporte** e **Requisitos**. Opcionalmente, cole um **modelo em texto** usado na geração:
 
 - Se o modelo contiver `{{contexto}}`, esse trecho é substituído pelo texto dos campos (contexto, requisitos, notas da reunião, etc.).
 - Se não houver `{{contexto}}`, o conteúdo informado é anexado após o seu modelo, na seção **Conteúdo informado**.
 
-Se o campo de padrão ficar vazio, o DocFlow usa o **template padrão** daquele fluxo (tabelas, seções e placeholders para preenchimento manual quando fizer sentido).
+Se o campo de padrão ficar vazio, o DocFlow usa o **template padrão** daquele fluxo (seções e orientações para preenchimento manual quando fizer sentido).
 
 ## Como rodar
 
@@ -55,10 +54,5 @@ Ver `docs/REQUISITOS_SISTEMA_DOCFLOW.md`.
 - **Unitários (Jest):**
   - Contextos: `ThemeContext` (tema claro/escuro com `localStorage`) e `PadraoIAContext` (persistência dos padrões de documento).
   - Componentes: `Nav`, `Footer` e `GeradorDocumento` (validação, chamada de API e cópia para área de transferência).
-- **E2E (Playwright):**
-  - Arquivos em `e2e/` cobrem:
-    - Home e navegação entre módulos.
-    - Alternância de tema e modal de padrões.
-    - Geração de documentos em QA e Requisitos com **mock das rotas de API** (respostas fixas nos testes).
 
 Para detalhes de como rodar e o que cada suíte cobre, veja `docs/TESTES.md`.

@@ -176,8 +176,21 @@ export function TarefasBoard() {
     }
   }
 
+  function mensagemConfirmarExclusaoProjeto(id: string): string {
+    const n = tasks.filter((t) => t.projectId === id).length;
+    if (n > 0) {
+      const plural = n === 1 ? "tarefa vinculada" : "tarefas vinculadas";
+      return (
+        `Este projeto possui ${n} ${plural}.\n\n` +
+        "Ao confirmar, o projeto e todas essas tarefas serão excluídos permanentemente.\n\n" +
+        "Tem certeza de que deseja continuar?"
+      );
+    }
+    return "Excluir este projeto? Esta ação não pode ser desfeita.";
+  }
+
   async function excluirProjeto(id: string) {
-    if (!window.confirm("Excluir este projeto e todas as tarefas vinculadas?")) return;
+    if (!window.confirm(mensagemConfirmarExclusaoProjeto(id))) return;
     setErro(null);
     try {
       await fetchJson(`/api/projetos/${id}`, { method: "DELETE" });
@@ -265,7 +278,12 @@ export function TarefasBoard() {
       await fetchJson(`/api/tarefas/${id}`, { method: "DELETE" });
       setTasks((prev) => prev.filter((t) => t.id !== id));
     } catch (err) {
-      setErro(err instanceof Error ? err.message : "Erro ao excluir");
+      const msg = err instanceof Error ? err.message : "Erro ao excluir";
+      if (/não encontrada/i.test(msg)) {
+        setTasks((prev) => prev.filter((t) => t.id !== id));
+        return;
+      }
+      setErro(msg);
     }
   }
 

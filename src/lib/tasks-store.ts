@@ -157,13 +157,13 @@ export async function updateTask(
   return t;
 }
 
-export async function deleteTask(id: string): Promise<boolean> {
+/** Remove a tarefa se existir. Idempotente (projeto excluído antes pode já ter removido a tarefa). */
+export async function deleteTask(id: string): Promise<void> {
   const file = await readFile();
   const idx = file.tasks.findIndex((t) => t.id === id);
-  if (idx === -1) return false;
+  if (idx === -1) return;
   file.tasks.splice(idx, 1);
   await writeFile(file);
-  return true;
 }
 
 export async function deleteTasksByProjectId(projectId: string): Promise<void> {

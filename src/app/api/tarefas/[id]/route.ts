@@ -114,9 +114,6 @@ export async function DELETE(_request: Request, context: RouteContext) {
     return NextResponse.json({ error: "Não autorizado" }, { status: 401 });
   }
   const { id } = context.params;
-  const ok = await deleteTask(id);
-  if (!ok) {
-    return NextResponse.json({ error: "Tarefa não encontrada" }, { status: 404 });
-  }
+  await deleteTask(id);
   return NextResponse.json({ ok: true });
 }

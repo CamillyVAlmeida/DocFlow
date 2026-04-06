@@ -15,5 +15,5 @@ export function aplicarPadraoDocumento(
   if (/\{\{\s*contexto\s*\}\}/i.test(p)) {
     return p.replace(/\{\{\s*contexto\s*\}\}/gi, ctx);
   }
-  return `${p.trim()}\n\n---\n\n## Conteúdo informado\n\n${ctx}`;
+  return `${p.trim()}\n\n---\n\nCONTEÚDO INFORMADO\n------------------\n${ctx}`;
 }

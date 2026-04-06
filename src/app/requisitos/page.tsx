@@ -245,7 +245,7 @@ export default function RequisitosPage() {
         </h2>
         <p className="mb-4 text-sm text-slate-600 dark:text-slate-400">
           Informe participantes, data e notas sobre decisões e planejamento da reunião. O sistema gera
-          um texto em Markdown seguindo o padrão de requisitos (menu &quot;Padrão Requisitos&quot;:
+          um texto estruturado seguindo o padrão de requisitos (em &quot;Personalização&quot;:
           usa o padrão da reunião Três Amigos; se estiver vazio, o padrão da documentação de
           requisitos).
         </p>

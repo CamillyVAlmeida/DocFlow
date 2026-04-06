@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getSessionOrNull } from "@/lib/get-session";
-import { getProject } from "@/lib/projects-store";
+import { getProject, listProjects } from "@/lib/projects-store";
 import { isTaskTipo } from "@/lib/tarefas-tipo";
 import { createTask, listTasks, type TaskPriority, type TaskStatus } from "@/lib/tasks-store";
 import { findUserById } from "@/lib/users-store";
@@ -26,7 +26,10 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const projectId = searchParams.get("projectId")?.trim() || undefined;
   const tasks = await listTasks(projectId ? { projectId } : undefined);
-  return NextResponse.json({ tasks });
+  const projects = await listProjects();
+  const idsProjetoValidos = new Set(projects.map((p) => p.id));
+  const tasksValidas = tasks.filter((t) => idsProjetoValidos.has(t.projectId));
+  return NextResponse.json({ tasks: tasksValidas });
 }
 
 export async function POST(request: Request) {

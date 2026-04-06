@@ -29,18 +29,12 @@ export type PadroesIA = {
   requisitosTresAmigos: string;
 };
 
-export type ModalSection = "qa" | "suporte" | "requisitos";
-
 type PadraoIAContextType = {
   padraoQAPlanoTestes: string;
   padraoQARelatoBug: string;
   padraoSuporte: string;
   padraoRequisitosDocumentacao: string;
   padraoRequisitosTresAmigos: string;
-  isModalOpen: boolean;
-  modalSection: ModalSection | null;
-  openModal: (section?: ModalSection) => void;
-  closeModal: () => void;
   savePadroes: (padroes: PadroesIA) => void;
 };
 
@@ -52,8 +46,6 @@ export function PadraoIAProvider({ children }: { children: ReactNode }) {
   const [padraoSuporte, setPadraoSuporte] = useState("");
   const [padraoRequisitosDocumentacao, setPadraoRequisitosDocumentacao] = useState("");
   const [padraoRequisitosTresAmigos, setPadraoRequisitosTresAmigos] = useState("");
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalSection, setModalSection] = useState<ModalSection | null>(null);
 
   useEffect(() => {
     const qaPlano = localStorage.getItem(STORAGE_QA_PLANO_TESTES);
@@ -92,17 +84,6 @@ export function PadraoIAProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(STORAGE_SUPORTE, padroes.suporte);
     localStorage.setItem(STORAGE_REQUISITOS_DOCUMENTACAO, padroes.requisitosDocumentacao);
     localStorage.setItem(STORAGE_REQUISITOS_TRES_AMIGOS, padroes.requisitosTresAmigos);
-    setIsModalOpen(false);
-    setModalSection(null);
-  }, []);
-
-  const openModal = useCallback((section?: ModalSection) => {
-    setModalSection(section ?? null);
-    setIsModalOpen(true);
-  }, []);
-  const closeModal = useCallback(() => {
-    setIsModalOpen(false);
-    setModalSection(null);
   }, []);
 
   return (
@@ -113,10 +94,6 @@ export function PadraoIAProvider({ children }: { children: ReactNode }) {
         padraoSuporte,
         padraoRequisitosDocumentacao,
         padraoRequisitosTresAmigos,
-        isModalOpen,
-        modalSection,
-        openModal,
-        closeModal,
         savePadroes,
       }}
     >

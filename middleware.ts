@@ -25,5 +25,14 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/qa", "/suporte", "/requisitos", "/tarefas", "/api/tarefas/:path*", "/api/projetos/:path*", "/api/users"],
+  matcher: [
+    "/qa",
+    "/suporte",
+    "/requisitos",
+    "/personalizacao",
+    "/tarefas",
+    "/api/tarefas/:path*",
+    "/api/projetos/:path*",
+    "/api/users",
+  ],
 };

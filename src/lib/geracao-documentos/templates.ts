@@ -1,252 +1,261 @@
-/** Geração determinística em Markdown (sem IA). */
+/** Geração determinística em texto simples (sem Markdown). Nomes *Markdown mantidos por compatibilidade com imports. */
 
 export function planoTestesMarkdown(contexto: string, dataGeracao: string): string {
-  return `# Plano de testes
+  return `PLANO DE TESTES
+=============
 
-**Data de geração:** ${dataGeracao}
+Data de geração: ${dataGeracao}
 
-## 1. Contexto e escopo
-
+1. CONTEXTO E ESCOPO
+--------------------
 ${contexto}
 
-## 2. Objetivos do teste
+2. OBJETIVOS DO TESTE
+---------------------
+  - (validar requisitos funcionais e não funcionais relacionados ao escopo acima)
 
-- _(validar requisitos funcionais e não funcionais relacionados ao escopo acima)_
+3. ESTRATÉGIA SUGERIDA
+---------------------
+Tipo: Funcional
+  Foco: Fluxos principais e regras de negócio
 
-## 3. Estratégia sugerida
+Tipo: Integração
+  Foco: APIs, serviços e bancos relacionados
 
-| Tipo | Foco |
-|------|------|
-| Funcional | Fluxos principais e regras de negócio |
-| Integração | APIs, serviços e bancos relacionados |
-| Regressão | Áreas impactadas por alterações recentes |
+Tipo: Regressão
+  Foco: Áreas impactadas por alterações recentes
 
-## 4. Cenários de teste
+4. CENÁRIOS DE TESTE
+--------------------
+CT-01 — Cenário: (preencher)
+  Pré-condição:
+  Passos:
+  Resultado esperado:
 
-| ID | Cenário | Pré-condição | Passos | Resultado esperado |
-|----|---------|--------------|--------|-------------------|
-| CT-01 | _(preencher)_ | | | |
-| CT-02 | _(preencher)_ | | | |
+CT-02 — Cenário: (preencher)
+  Pré-condição:
+  Passos:
+  Resultado esperado:
 
-## 5. Critérios de aceite
+5. CRITÉRIOS DE ACEITE
+----------------------
+(liste critérios verificáveis, alinhados ao contexto)
 
-_(Liste critérios verificáveis, alinhados ao contexto.)_
-
-## 6. Ambiente e ferramentas
-
-| Item | Valor |
-|------|-------|
-| Ambiente | |
-| Navegador / SO | |
-| Dados de teste | |
-| Ferramentas (ex.: Postman, DevTools) | |
+6. AMBIENTE E FERRAMENTAS
+-------------------------
+Ambiente:
+Navegador / SO:
+Dados de teste:
+Ferramentas (ex.: Postman, DevTools):
 `;
 }
 
 export function relatoBugQAMarkdown(contexto: string, dataGeracao: string): string {
-  return `# Relato de bug
+  return `RELATO DE BUG
+=============
 
-**Data:** ${dataGeracao}
+Data: ${dataGeracao}
 
-## Resumo
+RESUMO
+------
+(uma ou duas frases sobre o problema)
 
-_(Uma ou duas frases sobre o problema.)_
-
-## Descrição detalhada
-
+DESCRIÇÃO DETALHADA
+-------------------
 ${contexto}
 
-## Detalhes técnicos
+DETALHES TÉCNICOS
+-----------------
+Ambiente (SO, navegador, versões):
 
-| Campo | Informação |
-|-------|------------|
-| Ambiente (SO, navegador, versões) | |
-| Mensagens de erro / stack | |
-| Componente ou serviço afetado | |
-| Logs relevantes | |
+Mensagens de erro / stack:
 
-## Passos para reproduzir
+Componente ou serviço afetado:
 
-1. _(detalhar com base no contexto acima)_
+Logs relevantes:
 
-## Comportamento esperado vs. observado
+PASSOS PARA REPRODUZIR
+----------------------
+1. (detalhar com base no contexto acima)
 
-| Esperado | Observado |
-|----------|-----------|
-| | |
+COMPORTAMENTO ESPERADO X OBSERVADO
+-----------------------------------
+Esperado:
 
-## Severidade sugerida
+Observado:
 
-_(Crítico / Alto / Médio / Baixo)_
+SEVERIDADE SUGERIDA
+-------------------
+(Crítico / Alto / Médio / Baixo)
 
-## Evidências
-
-_(screenshots, IDs de requisição, etc.)_
+EVIDÊNCIAS
+----------
+(screenshots, IDs de requisição, etc.)
 `;
 }
 
 export function relatoBugClienteMarkdown(contexto: string, dataGeracao: string): string {
-  return `# Relato de bug (interno — a partir do cliente)
+  return `RELATO DE BUG (INTERNO — A PARTIR DO CLIENTE)
+===============================================
 
-**Data:** ${dataGeracao}
+Data: ${dataGeracao}
 
-## Resumo técnico
+RESUMO TÉCNICO
+--------------
+(síntese do problema em linguagem objetiva)
 
-_(Síntese do problema em linguagem objetiva.)_
-
-## Relato do cliente
-
+RELATO DO CLIENTE
+-----------------
 ${contexto}
 
-## Interpretação técnica
+INTERPRETAÇÃO TÉCNICA
+---------------------
+Ambiente provável:
 
-| Campo | Valor |
-|-------|-------|
-| Ambiente provável | |
-| Passos para reproduzir (inferidos) | |
-| Impacto sugerido | |
+Passos para reproduzir (inferidos):
 
-## Severidade e categoria sugeridas
+Impacto sugerido:
 
-- **Severidade:** _(Crítico / Alto / Médio / Baixo)_
-- **Categoria:** _(funcional, desempenho, interface, etc.)_
+SEVERIDADE E CATEGORIA SUGERIDAS
+--------------------------------
+Severidade: (Crítico / Alto / Médio / Baixo)
+Categoria: (funcional, desempenho, interface, etc.)
 
-## Ações sugeridas para o time
-
-- _(ex.: validar com QA, solicitar logs, reproduzir em homologação)_
+AÇÕES SUGERIDAS PARA O TIME
+---------------------------
+  - (ex.: validar com QA, solicitar logs, reproduzir em homologação)
 `;
 }
 
 export function documentacaoApiMarkdown(contexto: string, dataGeracao: string): string {
-  return `# Documentação de API
+  return `DOCUMENTAÇÃO DE API
+==================
 
-**Data de geração:** ${dataGeracao}
+Data de geração: ${dataGeracao}
 
-## Visão geral
-
+VISÃO GERAL
+-----------
 ${contexto}
 
-## Base URL e ambientes
+BASE URL E AMBIENTES
+--------------------
+Desenvolvimento — URL base: https://
+Homologação — URL base: https://
+Produção — URL base: https://
 
-| Ambiente | URL base |
-|----------|----------|
-| Desenvolvimento | \`https://\` |
-| Homologação | \`https://\` |
-| Produção | \`https://\` |
+ENDPOINTS
+---------
+Método:
+Path:
+Descrição:
 
-## Endpoints
+(detalhe do endpoint — repetir seção conforme necessário)
 
-| Método | Path | Descrição |
-|--------|------|-----------|
-| | | |
+Parâmetros: query / path / body
+Resposta de sucesso: (JSON de exemplo)
+Respostas de erro: códigos e corpos
 
-### Detalhe do endpoint _(repetir seção conforme necessário)_
+AUTENTICAÇÃO E HEADERS
+----------------------
+(Bearer, API keys, headers obrigatórios)
 
-- **Parâmetros:** query / path / body
-- **Resposta de sucesso:** (JSON de exemplo)
-- **Respostas de erro:** códigos e corpos
+CÓDIGOS HTTP COMUNS
+-------------------
+200:
+400:
+401:
+404:
+500:
 
-## Autenticação e headers
-
-_(Bearer, API keys, headers obrigatórios.)_
-
-## Códigos HTTP comuns
-
-| Código | Uso |
-|--------|-----|
-| 200 | |
-| 400 | |
-| 401 | |
-| 404 | |
-| 500 | |
-
-## Exemplos
-
-### Requisição
-
-\`\`\`json
+EXEMPLOS
+--------
+Requisição (JSON):
 {}
-\`\`\`
 
-### Resposta
-
-\`\`\`json
+Resposta (JSON):
 {}
-\`\`\`
 `;
 }
 
 export function novasFuncionalidadesMarkdown(contexto: string, dataGeracao: string): string {
-  return `# Documentação de novas funcionalidades
+  return `DOCUMENTAÇÃO DE NOVAS FUNCIONALIDADES
+====================================
 
-**Data:** ${dataGeracao}
+Data: ${dataGeracao}
 
-## Visão geral
-
+VISÃO GERAL
+-----------
 ${contexto}
 
-## Funcionalidades entregues
+FUNCIONALIDADES ENTREGUES
+-------------------------
+Nome:
+Descrição breve:
+Valor para o usuário:
 
-| Nome | Descrição breve | Valor para o usuário |
-|------|------------------|----------------------|
-| | | |
+COMPORTAMENTO ESPERADO
+----------------------
+Fluxo principal:
 
-## Comportamento esperado
+Regras de negócio e validações:
 
-- Fluxo principal:
-- Regras de negócio e validações:
-- Mensagens ao usuário:
+Mensagens ao usuário:
 
-## Critérios de aceite
+CRITÉRIOS DE ACEITE
+-------------------
+[ ] (critério verificável 1)
+[ ] (critério verificável 2)
 
-- [ ] _(critério verificável 1)_
-- [ ] _(critério verificável 2)_
+OBSERVAÇÕES PARA QA
+-------------------
+Pontos de atenção:
 
-## Observações para QA
+Dependências:
 
-- Pontos de atenção:
-- Dependências:
-- Dados de teste sugeridos:
+Dados de teste sugeridos:
 `;
 }
 
 export function causaRaizMarkdown(contexto: string, dataGeracao: string): string {
-  return `# Análise de causa raiz
+  return `ANÁLISE DE CAUSA RAIZ
+====================
 
-**Data:** ${dataGeracao}
+Data: ${dataGeracao}
 
-## Descrição do bug / contexto
-
+DESCRIÇÃO DO BUG / CONTEXTO
+---------------------------
 ${contexto}
 
-## Passos para reproduzir
+PASSOS PARA REPRODUZIR
+----------------------
+1. (extrair do contexto quando possível)
 
-1. _(extrair do contexto quando possível)_
+ANÁLISE 5 PORQUÊS
+-----------------
+1 — Por quê? → Resposta:
 
-## Análise 5 Porquês
+2 — Por quê? → Resposta:
 
-| # | Pergunta | Resposta |
-|---|----------|----------|
-| 1 | Por quê? | |
-| 2 | Por quê? | |
-| 3 | Por quê? | |
-| 4 | Por quê? | |
-| 5 | Por quê? | |
+3 — Por quê? → Resposta:
 
-## Causa raiz identificada
+4 — Por quê? → Resposta:
 
-- **Categoria:** _(Código / Configuração / Dados / Processo / Outro)_
-- **Descrição:**
+5 — Por quê? → Resposta:
 
-## Ações corretivas
+CAUSA RAIZ IDENTIFICADA
+-----------------------
+Categoria: (Código / Configuração / Dados / Processo / Outro)
+Descrição:
 
-| Ação | Responsável | Prazo |
-|------|-------------|-------|
-| | | |
+AÇÕES CORRETIVAS
+----------------
+Ação:
+Responsável:
+Prazo:
 
-## Conclusão
-
-_(Resumo objetivo.)_
+CONCLUSÃO
+---------
+(resumo objetivo)
 `;
 }
 
@@ -256,34 +265,32 @@ export function documentacaoRequisitosMarkdown(
   requisitos: string,
   dataGeracao: string
 ): string {
-  return `# Documentação de requisitos
+  return `DOCUMENTAÇÃO DE REQUISITOS
+=========================
 
-**Data:** ${dataGeracao}
+Data: ${dataGeracao}
 
-## Identificação
+IDENTIFICAÇÃO
+-------------
+Cliente: ${cliente}
+Analista de Requisitos: ${analista}
 
-| Campo | Valor |
-|-------|-------|
-| Cliente | ${cliente} |
-| Analista de Requisitos | ${analista} |
-
-## Requisitos coletados
-
+REQUISITOS COLETADOS
+--------------------
 ${requisitos}
 
-## Módulos / melhorias / alterações
+MÓDULOS / MELHORIAS / ALTERAÇÕES
+--------------------------------
+(organize os módulos envolvidos, melhorias e alterações conforme o texto acima)
 
-_(Organize abaixo os módulos envolvidos, melhorias e alterações, conforme o texto acima.)_
+Módulo / área:
+Melhoria ou alteração:
 
-| Módulo / área | Melhoria ou alteração |
-|---------------|------------------------|
-| | |
-
-## Próximos passos
-
-- Reunião Três Amigos (Líder, Desenvolvedor, QA)
-- Análise do pedido do cliente
-- Decisão: **Aprovado** / **Não aprovado** _(a registrar na ata)_
+PRÓXIMOS PASSOS
+---------------
+  - Reunião Três Amigos (Líder, Desenvolvedor, QA)
+  - Análise do pedido do cliente
+  - Decisão: Aprovado / Não aprovado (a registrar na ata)
 `;
 }
 
@@ -298,40 +305,38 @@ export function ataTresAmigosMarkdown(args: {
 }): string {
   const { idRequisito, dataReuniao, lider, desenvolvedor, qa, observacoes, dataGeracao } =
     args;
-  return `# Reunião Três Amigos
+  return `REUNIÃO TRÊS AMIGOS
+===================
 
-**Data do documento:** ${dataGeracao}
+Data do documento: ${dataGeracao}
 
-## Identificação do requisito
+IDENTIFICAÇÃO DO REQUISITO
+--------------------------
+ID: ${idRequisito}
+Data da reunião: ${dataReuniao}
 
-**ID:** ${idRequisito}
+PARTICIPANTES
+-------------
+Líder: ${lider}
+Desenvolvedor: ${desenvolvedor}
+QA: ${qa}
 
-**Data da reunião:** ${dataReuniao}
-
-## Participantes
-
-| Papel | Nome |
-|-------|------|
-| Líder | ${lider} |
-| Desenvolvedor | ${desenvolvedor} |
-| QA | ${qa} |
-
-## Notas da reunião
-
+NOTAS DA REUNIÃO
+----------------
 ${observacoes}
 
-## Resumo do que foi discutido e decisões
+RESUMO DO QUE FOI DISCUTIDO E DECISÕES
+--------------------------------------
+(incluir aprovação ou não do pedido, quando aplicável)
 
-_(Incluir aprovação ou não do pedido, quando aplicável.)_
+PLANEJAMENTO E PRÓXIMOS PASSOS
+------------------------------
+Ação:
+Responsável:
+Prazo / observação:
 
-## Planejamento e próximos passos
-
-| Ação | Responsável | Prazo / observação |
-|------|-------------|-------------------|
-| | | |
-
-## Pendências
-
-_(O que ficou "a definir" ou depende de informação externa.)_
+PENDÊNCIAS
+---------
+(o que ficou a definir ou depende de informação externa)
 `;
 }

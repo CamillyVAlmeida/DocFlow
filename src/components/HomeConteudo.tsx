@@ -108,7 +108,7 @@ function LandingVisitante() {
       <div className="card border-l-4 border-primary-500 p-6 sm:p-8">
         <h1 className="mb-4 text-3xl font-bold text-slate-800 dark:text-slate-100 sm:text-4xl">DocFlow</h1>
         <p className="mb-6 text-lg text-slate-600 dark:text-slate-300">
-          Sistema web para gerar documentação alinhada a QA, Suporte e Requisitos — modelos em Markdown a
+          Sistema web para gerar documentação alinhada a QA, Suporte e Requisitos — textos estruturados a
           partir do que você informa, para padronizar comunicação técnica e registro de decisões.
         </p>
 
@@ -152,7 +152,7 @@ function ModulosLogado() {
       <section className="mb-8 text-center">
         <h1 className="mb-2 text-3xl font-bold text-slate-800 dark:text-slate-100 sm:text-4xl">DocFlow</h1>
         <p className="text-base text-slate-600 dark:text-slate-400 sm:text-lg">
-          Sistema de geração de documentação para QA, Suporte e Requisitos
+          Sistema de geração de documentação para QA, Suporte e Requisitos e gestão de atividades.
         </p>
       </section>
 
