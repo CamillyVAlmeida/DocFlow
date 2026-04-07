@@ -109,7 +109,8 @@ function LandingVisitante() {
         <h1 className="mb-4 text-3xl font-bold text-slate-800 dark:text-slate-100 sm:text-4xl">DocFlow</h1>
         <p className="mb-6 text-lg text-slate-600 dark:text-slate-300">
           Sistema web para gerar documentação alinhada a QA, Suporte e Requisitos — textos estruturados a
-          partir do que você informa, para padronizar comunicação técnica e registro de decisões.
+          partir do que você informa, para padronizar comunicação técnica e registro de decisões — e para
+          organizar o trabalho em projetos com quadro de tarefas (Kanban).
         </p>
 
         <h2 className="mb-3 text-base font-semibold text-slate-800 dark:text-slate-100">O que você pode fazer após entrar</h2>
@@ -133,6 +134,14 @@ function LandingVisitante() {
             <span>
               <strong className="text-slate-800 dark:text-slate-200">Requisitos:</strong> documentar demandas e registrar
               a reunião Três Amigos (Líder, Dev, QA).
+            </span>
+          </li>
+          <li className="flex gap-2">
+            <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-primary-500" aria-hidden />
+            <span>
+              <strong className="text-slate-800 dark:text-slate-200">Tarefas:</strong> agrupe o trabalho em projetos,
+              defina responsáveis, prazos e prioridades e acompanhe o fluxo no quadro; cada tarefa pode ser associada ao
+              contexto de QA, Suporte ou Requisitos.
             </span>
           </li>
         </ul>
