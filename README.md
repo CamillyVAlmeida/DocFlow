@@ -34,8 +34,6 @@ npm install
 npm run dev
 ```
 
-Acesse [http://localhost:3000](http://localhost:3000).
-
 Variáveis opcionais: veja `.env.example` (ex.: `DOCFLOW_DATA_DIR` para localização dos JSON de dados).
 
 ## Build
